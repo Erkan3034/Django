@@ -4,4 +4,15 @@ from django.contrib import admin
 
 from .models import Article
 
-admin.site.register(Article) # Bu kod, Article modelini admin panelinde görünür hale getirir
+@admin.register(Article) # admin panelinde Article modelini görüntülemek/özelleştirmek için kullanılır
+class ArticleAdmin(admin.ModelAdmin): # admin panelinde Article modelini görüntülemek/özelleştirmek için kullanılır
+    list_display = ["title", "author", "created_date"]
+    list_display_links = ["title", "created_date"]
+    search_fields = ["title", "content"]
+    list_filter = ["created_date"]
+    
+    class Meta:
+        model = Article
+    
+
+
