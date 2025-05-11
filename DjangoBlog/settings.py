@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "article", # Bu kod, article uygulamasını projenin diğer bölümlerine entegre eder
 ]
 
 MIDDLEWARE = [
