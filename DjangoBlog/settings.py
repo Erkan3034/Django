@@ -55,7 +55,7 @@ ROOT_URLCONF = 'DjangoBlog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ["templates"], # Bu kod, Django'ya şablon dosyalarının bulunduğu dizini belirtir
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
