@@ -10,7 +10,7 @@ def register(request):
         password = form.cleaned_data.get("password")
         newUser = User(username = username)
         newUser.set_password(password)
-        newUser.save()
+        newUser.save() 
         
     return render(request, 'register.html', {"form": form})
 
