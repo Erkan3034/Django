@@ -15,11 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from article import views # Bu kod, article uygulamasındaki views.py dosyasını içe aktarır
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name ="index"), # Bu kod, ana sayfayı temsil eder ve index fonksiyonunu çağırır
-    path('about/', views.about, name ="about"), # Bu kod, makaleler sayfasını temsil eder ve articles fonksiyonunu çağırır
+    path('about/', views.about, name ="about"), # Bu kod, makaleler sayfasını temsil eder ve about fonksiyonunu çağırır
+    
+    path('articles/', include('article.urls')), # Bu kod, makaleler sayfasını temsil eder ve article.urls dosyasını içe aktarır
+    
+    path('detail/<int:id>', views.detail, name ="detail"), # Bu kod, makaleler sayfasınının detayını temsil eder ve detail fonksiyonunu çağırır
+
+
 ]
