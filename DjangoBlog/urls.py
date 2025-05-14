@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from article.views import index # Bu kod, article uygulamasındaki index fonksiyonunu içe aktarır
+from article import views # Bu kod, article uygulamasındaki views.py dosyasını içe aktarır
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name ="index"), # Bu kod, ana sayfayı temsil eder ve index fonksiyonunu çağırır
+    path('', views.index, name ="index"), # Bu kod, ana sayfayı temsil eder ve index fonksiyonunu çağırır
+    path('about/', views.about, name ="about"), # Bu kod, makaleler sayfasını temsil eder ve articles fonksiyonunu çağırır
 ]
