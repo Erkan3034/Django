@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0 bg-light text-dark">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-person-circle display-3 text-primary"></i>
+                        <h2 class="fw-bold mt-3">Giriş Yap</h2>
+                        <p class="text-secondary">Tekrar hoş geldin, kod dostu!</p>
+                    </div>
+                    <form method="POST" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label"><i class="bi bi-person-fill me-2 text-primary"></i>Kullanıcı Adı veya E-posta</label>
+                            <input type="text" class="form-control border-primary" id="username" name="username" placeholder="coder123 veya mail" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="password" class="form-label"><i class="bi bi-lock-fill me-2 text-primary"></i>Şifre</label>
+                            <input type="password" class="form-control border-primary" id="password" name="password" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Giriş Yap
+                        </button>
+                    </form>
+                    <div class="text-center mt-4">
+                        <span class="text-secondary">Hesabın yok mu?</span>
+                        <a href="/user/register" class="text-primary fw-bold text-decoration-none ms-2"><i class="bi bi-person-plus"></i> Kayıt Ol</a>
+                    </div>
+                    <div class="text-center mt-4">
+                        <span class="text-primary"><i class="bi bi-lightbulb"></i> "Her kod bir başlangıçtır!"</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

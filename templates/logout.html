@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0 bg-light text-dark text-center">
+                <div class="card-body p-5">
+                    <i class="bi bi-box-arrow-right display-3 text-success mb-3"></i>
+                    <h2 class="fw-bold mb-3">Çıkış Yapıldı</h2>
+                    <p class="lead mb-4">Başarıyla oturumunuzu kapattınız.<br>Yeniden giriş yapmak veya ana sayfaya dönmek için aşağıdaki butonları kullanabilirsiniz.</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="/" class="btn btn-outline-primary fw-bold px-4"><i class="bi bi-house-door me-2"></i>Ana Sayfa</a>
+                        <a href="/user/login" class="btn btn-primary fw-bold px-4"><i class="bi bi-box-arrow-in-right me-2"></i>Giriş Yap</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

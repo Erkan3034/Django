@@ -27,5 +27,6 @@ urlpatterns = [
     
     path('detail/<int:id>', views.detail, name ="detail"), # Bu kod, makaleler sayfasınının detayını temsil eder ve detail fonksiyonunu çağırır
 
+    path('user/', include('user.urls')), # Bu kod, kullanıcı sayfasını temsil eder ve user.urls dosyasını içe aktarır
 
 ]

@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<form >
+
+{{ form.as_p }}
+</form>
+
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0 bg-light text-dark">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-terminal-fill display-3 text-primary"></i>
+                        <h2 class="fw-bold mt-3">Kayıt Ol</h2>
+                        <p class="text-secondary">Kod dünyasına adım at, topluluğa katıl!</p>
+                    </div>
+                    <form method="POST" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label"><i class="bi bi-person-fill me-2 text-primary"></i>Kullanıcı Adı</label>
+                            <input type="text" class="form-control border-primary" id="username" name="username" placeholder="coder123" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label"><i class="bi bi-envelope-fill me-2 text-primary"></i>E-posta</label>
+                            <input type="email" class="form-control border-primary" id="email" name="email" placeholder="ornek@mail.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="github" class="form-label"><i class="bi bi-github me-2 text-dark"></i>Github Profil Linki <span class="text-secondary small">(isteğe bağlı)</span></label>
+                            <input type="url" class="form-control border-primary" id="github" name="github" placeholder="https://github.com/kullanici">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password1" class="form-label"><i class="bi bi-lock-fill me-2 text-primary"></i>Şifre</label>
+                            <input type="password" class="form-control border-primary" id="password1" name="password1" placeholder="••••••••" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="password2" class="form-label"><i class="bi bi-lock me-2 text-primary"></i>Şifre (Tekrar)</label>
+                            <input type="password" class="form-control border-primary" id="password2" name="password2" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
+                            <i class="bi bi-person-plus-fill me-2"></i>Kayıt Ol ve Kodlamaya Başla
+                        </button>
+                    </form>
+                    <div class="text-center mt-4">
+                        <span class="text-secondary">Zaten bir hesabın var mı?</span>
+                        <a href="/user/login" class="text-primary fw-bold text-decoration-none ms-2"><i class="bi bi-box-arrow-in-right"></i> Giriş Yap</a>
+                    </div>
+                    <div class="text-center mt-4">
+                        <span class="text-primary"><i class="bi bi-lightbulb"></i> "Kod yaz, paylaş, öğren!"</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
