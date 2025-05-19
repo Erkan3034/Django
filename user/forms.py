@@ -23,7 +23,7 @@ class RegisterForm(forms.Form):
         github = cleaned_data.get("github")
 
         if password and confirm and password != confirm:
-            raise forms.ValidationError("Şifreler eşleşmiyor!")
+            raise forms.ValidationError("Şifreler eşleşmiyor!") #password confirm
 
         if github and not github.startswith("https://github.com/"):
             raise forms.ValidationError("Geçerli bir Github linki girin (https://github.com/...)")
