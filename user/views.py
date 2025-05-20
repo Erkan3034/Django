@@ -69,4 +69,5 @@ def logoutUser(request):
     messages.success(request, "Başarıyla çıkış yapıldı!")
     return redirect("index")
 
-
+def dashboard(request):
+    return render(request, 'dashboard.html')
