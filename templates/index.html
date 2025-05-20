@@ -9,7 +9,13 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-10 text-center">
-                        <h1 class="display-4 mb-4">Codenthia'ya Hoş Geldin!</h1>
+                        <h1 class="display-4 mb-4">
+                            {% if request.user.is_authenticated %}
+                              Codenthia'ya hoş Geldin, {{ request.user.username }}
+                            {% else %}
+                              Codenthia'ya Hoş Geldin!
+                            {% endif %}
+                        </h1>
                         <div class="lead mb-4">
                             <p>Codenthia, teknoloji ve yazılım dünyasındaki en güncel gelişmeleri, 
                             programlama dillerini, web teknolojilerini ve dijital dünyanın tüm 
@@ -42,7 +48,13 @@
                     <div class="card">
                         <img src="https://essentebilisim.com/blog/kodlama-nedir-ve-ne-ise-yarar.jpg" class="card-img-top" alt="Featured Post">
                         <div class="card-body">
-                            <h3 class="card-title">Hoş Geldin! - Codenthia'ya Başla</h3>
+                            <h3 class="card-title">
+                                {% if request.user.is_authenticated %}
+                                  Hoş Geldin, {{ request.user.username }}
+                                {% else %}
+                                  Hoş Geldin Coder!
+                                {% endif %}
+                            </h3>
                             <p class="card-text">Codenthia'da teknoloji, yazılım ve dijital dünya hakkında en güncel içerikleri bulabilirsiniz...</p>
                             <a href="#" class="btn btn-primary">Devamını Oku</a>
                         </div>
@@ -135,6 +147,10 @@
                 </div>
             </aside>
         </div>
+
+
+
+
 {% endblock body %}
 
 

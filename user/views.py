@@ -65,6 +65,8 @@ def loginUser(request):
     return render(request, 'login.html', {"form": form}) # login sayfasını render et eğer form geçerli değilse
 
 def logoutUser(request):
-    return render(request, 'logout.html')
+    logout(request)
+    messages.success(request, "Başarıyla çıkış yapıldı!")
+    return redirect("index")
 
 
