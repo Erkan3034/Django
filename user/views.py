@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import RegisterForm
+from .forms import RegisterForm, LoginForm
 from django.contrib.auth.models import User # kullanıcı modeli 
 from django.contrib.auth import login, authenticate, logout # login, authenticate, logout fonksiyonları
 from django.db import IntegrityError
@@ -48,7 +48,7 @@ def register(request):
 
 # Login View
 def loginUser(request):
-    form = RegisterForm(request.POST or None)
+    form = LoginForm(request.POST or None)
     if form.is_valid():
         username = form.cleaned_data.get("username")
         password = form.cleaned_data.get("password")
@@ -61,6 +61,7 @@ def loginUser(request):
         else:
             messages.info(request, "Kullanıcı adı veya şifre hatalı.")
             return render(request, 'login.html', {"form": form})
+        
     return render(request, 'login.html', {"form": form}) # login sayfasını render et eğer form geçerli değilse
 
 def logoutUser(request):
