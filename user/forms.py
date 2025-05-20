@@ -1,5 +1,15 @@
 from django import forms
 
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=50, label="Kullanıcı Adı")
+    password = forms.CharField(
+        max_length=50, 
+        label="Şifre", 
+        widget=forms.PasswordInput
+    )
+
+
 class RegisterForm(forms.Form):
     username = forms.CharField(max_length=50, label="Kullanıcı Adı")
     email = forms.EmailField(label="E-posta")  # Otomatik geçerlilik kontrolü yapılır
