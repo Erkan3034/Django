@@ -26,4 +26,5 @@ def articles(request): # Bu kod, makaleler sayfasını temsil eder ve articles f
     return render(request, 'articles.html')
 
 def dashboard(request): # Bu kod, kontrol paneli sayfasını temsil eder ve dashboard fonksiyonunu çağırır
+    
     return render(request, 'dashboard.html')

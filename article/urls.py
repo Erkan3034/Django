@@ -9,4 +9,5 @@ app_name = "article"
 urlpatterns = [
     path('create/', views.index, name="index"),
     path('', views.articles, name="articles"), # Bu kod, makaleler sayfasını temsil eder ve articles fonksiyonunu çağırır
+    path('dashboard/', views.dashboard, name="dashboard"), # Bu kod, kontrol paneli sayfasını temsil eder ve dashboard fonksiyonunu çağırır
 ]
