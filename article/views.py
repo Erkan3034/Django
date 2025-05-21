@@ -20,7 +20,7 @@ def about(request):
 
 
 def detail(request, id): # Bu kod, makale detay sayfasını temsil eder ve detail fonksiyonunu çağırır
-    article = get_object_or_404(Article, id=id)
+    article = get_object_or_404(Article, id=id)  # Bu kod, makaleyi alır ve id'ye göre filtreler eğer id yoksa 404 hatası döner
     return render(request, 'detail.html', {'article': article})
 
 def create(request):
