@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0"><i class="bi bi-speedometer2 me-2"></i>Kontrol Paneli</h3>
+        <a class="btn btn-primary" href="{% url 'article:addarticle' %}">
+            <i class="bi bi-plus-circle me-1"></i>Makale Ekle
+        </a>
+    </div>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <p class="mb-3">
+                Hoşgeldiniz, <span class="fw-bold text-primary">{{ request.user.username }}</span>
+            </p>
+            <h5 class="mb-3 text-success">Kendi Makaleleriniz</h5>
+            <div class="table-responsive mb-4">
+                {% if user_articles %}
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Başlık</th>
+                            <th>Tarih</th>
+                            <th class="text-end">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for article in user_articles %}
+                        <tr>
+                            <td class="fw-semibold"> <a class="text-decoration-none "
+                                    href="/articles/detail/{{article.id}}">{{ article.title }}</a>
+                            </td>
+                            <td>{{ article.created_date|date:"d M Y H:i" }}</td>
+                            <td class="text-end">
+                                <a href="/articles/update/{{article.id}}" class="btn btn-sm btn-outline-primary me-1">
+                                    <i class="bi bi-pencil"></i> Güncelle
+                                </a>
+                                <a href="/articles/delete/{{article.id}}" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i> Sil
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="alert alert-danger text-center" role="alert">
+                    Henüz makaleniz yok.
+                </div>
+                {% endif %}
+            </div>
+
+            {% if request.user.is_superuser or request.user.is_staff %}
+            <hr class="my-4 border-primary border-1">
+            <h5 class="mb-3 text-dark text-shadow text-center mt-5">Diğer Kullanıcıların Makaleleri</h5>
+            <hr class="my-4 border-primary border-1 w-25  mx-auto">
+            <div class="table-responsive">
+                {% if other_articles %}
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Başlık</th>
+                            <th>Yazar</th>
+                            <th>Tarih</th>
+                            <th class="text-end">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for article in other_articles %}
+                        <tr>
+                            <td class="fw-semibold"> <a class="text-decoration-none "
+                                    href="/articles/detail/{{article.id}}">{{ article.title }}</a>
+                            </td>
+                            <td>{{ article.author }}</td>
+                            <td>{{ article.created_date|date:"d M Y H:i" }}</td>
+                            <td class="text-end">
+                                <a href="/articles/update/{{article.id}}" class="btn btn-sm btn-outline-primary me-1">
+                                    <i class="bi bi-pencil"></i> Güncelle
+                                </a>
+                                <a href="/articles/delete/{{article.id}}" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i> Sil
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="alert alert-info text-center" role="alert">
+                    Diğer kullanıcıların makalesi yok.
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

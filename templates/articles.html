@@ -1,21 +1,29 @@
 {% extends "layout.html" %}
 
 {% block body %}
+{% load static %}
 <div class="container my-5">
-    <h1 class="mb-4">Makaleler</h1>
+    <h1 class="mb-4 text-center text-dark font-weight-bold ">Makaleler</h1>
+    <hr class="mb-4 text-primary border-4 ">
     <!-- En güncel makale (öne çıkan) -->
+
     {% if featured_article %}
-    <div class="row mb-5">
-        <div class="col-md-8">
-            <div class="card mb-4 shadow-sm">
-                <img src="{{ featured_article.image.url }}" class="card-img-top" alt="{{ featured_article.title }}">
-                <div class="card-body">
-                    <span class="badge bg-danger mb-2">MAKALELER</span>
-                    <h2 class="card-title">{{ featured_article.title }}</h2>
-                    <p class="card-text">{{ featured_article.summary|truncatewords:25 }}</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <small class="text-muted">{{ featured_article.author }}</small>
-                        <small class="text-muted">{{ featured_article.published_date }}</small>
+    <h2 class="mb-4 text-primary" style="font-weight:700; letter-spacing:1px; text-align:left;">Yeni Makaleler</h2>
+    <div class="mb-5">
+        <div class="col-12 col-md-10 col-lg-8  me-auto">
+            <div class="featured-article-card position-relative overflow-hidden shadow-lg rounded-4">
+                {% if featured_article.image %}
+                    <img src="{{ featured_article.image.url }}" class="featured-article-img" alt="{{ featured_article.title }}">
+                {% else %}
+                    <img src="{% static 'codenthiaRevize.png' %}" class="featured-article-img" alt="{{ featured_article.title }}">
+                {% endif %}
+                <div class="featured-article-overlay d-flex flex-column justify-content-end align-items-start text-start">
+                    <span class="badge bg-danger mb-2">MAKALE</span>
+                    <h2 class="featured-article-title mb-2"> <a class="text-decoration-none text-light" href="/articles/detail/{{featured_article.id}}">{{ featured_article.title }}</a></h2>
+                    <div class="featured-article-desc mb-3">{{ featured_article.content|truncatewords:30 }}</div>
+                    <div class="d-flex justify-content-between align-items-center text-white-50 w-100" style="font-size:1rem;">
+                        <span><i class="bi bi-person"></i> {{ featured_article.author }}</span>
+                        <span><i class="bi bi-calendar"></i> {{ featured_article.created_date|date:"d M Y" }}</span>
                     </div>
                 </div>
             </div>
@@ -27,20 +35,125 @@
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for article in articles %}
         <div class="col">
-            <div class="card h-100 shadow-sm">
-                <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}">
-                <div class="card-body">
-                    <span class="badge bg-danger mb-2">MAKALELER</span>
-                    <h5 class="card-title">{{ article.title }}</h5>
-                    <p class="card-text">{{ article.summary|truncatewords:15 }}</p>
+            <div class="article-card h-100">
+                {% if article.image %}
+                    <img src="{{ article.image.url }}" class="article-img-top" alt="{{ article.title }}">
+                {% else %}
+                    <img src="{% static 'codenthiaRevize.png' %}" class="article-img-top" alt="{{ article.title }}">
+                {% endif %}
+                <div class="article-body">
+                    <div class="article-title">
+                        <a href="{% url 'article:detail' article.id %}" class="text-decoration-none text-dark">
+                            {{ article.title }}
+                        </a>
+                    </div>
+                    <div class="text-muted" style="font-size:0.97rem;">{{ article.content|truncatewords:15 }}</div>
                 </div>
-                <div class="card-footer d-flex justify-content-between align-items-center">
-                    <small class="text-muted">{{ article.author }}</small>
-                    <small class="text-muted">{{ article.published_date }}</small>
+                <div class="article-footer d-flex justify-content-between align-items-center">
+                    <span>{{ article.author }}</span>
+                    <span>{{ article.created_date|date:"d M Y" }}</span>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
 </div>
+
+<style>
+.article-card {
+    border: none;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.article-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+.article-img-top {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-bottom: 1px solid #f0f0f0;
+    min-height: 180px;
+    max-height: 220px;
+    display: block;
+}
+.article-body {
+    flex: 1 1 auto;
+    padding: 1.2rem 1.2rem 0.8rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.article-footer {
+    background: #f8f9fa;
+    border-top: 1px solid #f0f0f0;
+    padding: 0.7rem 1.2rem;
+    font-size: 0.95rem;
+    color: #6c757d;
+    border-radius: 0 0 18px 18px;
+}
+.article-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+.featured-article-card {
+    min-height: 340px;
+    max-height: 420px;
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+    position: relative;
+    background: #222;
+}
+.featured-article-img {
+    width: 100%;
+    height: 100%;
+    min-height: 340px;
+    max-height: 420px;
+    object-fit: cover;
+    filter: brightness(0.7);
+    border-radius: 24px;
+    transition: filter 0.3s;
+}
+.featured-article-card:hover .featured-article-img {
+    filter: brightness(1);
+}
+.featured-article-overlay {
+    position: absolute;
+    left: 0; right: 0; bottom: 0; top: 0;
+    padding: 2.5rem 2.5rem 1.5rem 2.5rem;
+    background: linear-gradient(0deg, rgba(30,30,30,0.85) 40%, rgba(30,30,30,0.15) 100%);
+    color: #fff;
+    border-radius: 24px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    text-align: left;
+}
+.featured-article-title {
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    margin-bottom: 0.7rem;
+    margin-top: 0.2rem;
+    text-align: left;
+}
+.featured-article-desc {
+    font-size: 1.1rem;
+    color: #e0e0e0;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.10);
+    margin-bottom: 1.2rem;
+    text-align: left;
+}
+</style>
 {% endblock body %}

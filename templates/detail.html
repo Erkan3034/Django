@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <a href="{% url 'article:articles' %}" class="btn btn-outline-secondary mb-3">
+                <i class="bi bi-arrow-left"></i> Tüm Makalelere Dön
+            </a>
+            <div class="card shadow-lg">
+                {% if article.image %}
+                    <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}" style="object-fit:cover; max-height:350px;">
+                {% else %}
+                    <img src="{% static 'codenthiaRevize.png' %}" class="card-img-top" alt="{{ article.title }}" style="object-fit:cover; max-height:350px;">
+                {% endif %}
+                <div class="card-body">
+                    <h1 class="card-title mb-3">{{ article.title }}</h1>
+                    <div class="mb-3 text-muted">
+                        <i class="bi bi-person"></i> {{ article.author }} &nbsp;|&nbsp;
+                        <i class="bi bi-calendar"></i> {{ article.created_date|date:"d M Y H:i" }}
+                    </div>
+                    <hr>
+                    <div class="card-text" style="font-size:1.15rem;">
+                        {{ article.content|linebreaks }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
