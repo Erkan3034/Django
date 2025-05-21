@@ -1,156 +1,142 @@
-{% extends "layout.html" %}
-
-{% block body %}
+{% extends "layout.html" %} {% block body %}
 
 <!-- <h1>Hello {{ number1 }}</h1>  -->
 
-        <!-- Mission Statement Section -->
-        <div class="container-fluid bg-light py-5 mb-4">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-10 text-center">
-                        <h1 class="display-4 mb-4">
-                            {% if request.user.is_authenticated %}
-                              Codenthia'ya hoş Geldin, {{ request.user.username }}
-                            {% else %}
-                              Codenthia'ya Hoş Geldin!
-                            {% endif %}
-                        </h1>
-                        <div class="lead mb-4">
-                            <p>Codenthia, teknoloji ve yazılım dünyasındaki en güncel gelişmeleri, 
-                            programlama dillerini, web teknolojilerini ve dijital dünyanın tüm 
-                            yeniliklerini sizlerle buluşturan bir bilgi platformudur.</p>
-                            
-                            <p class="mt-3">Amacımız:</p>
-                            <ul class="list-unstyled">
-                                <li class="mb-2">✓ Yazılım geliştiricilere pratik ve güncel bilgiler sunmak</li>
-                                <li class="mb-2">✓ Teknoloji meraklılarına rehberlik etmek</li>
-                                <li class="mb-2">✓ Programlama dünyasındaki yenilikleri takip etmek ve paylaşmak</li>
-                                <li class="mb-2">✓ Topluluk oluşturarak bilgi alışverişini teşvik etmek</li>
-                            </ul>
-                        </div>
-                        <div class="d-flex justify-content-center gap-3">
-                            <a href="#featured-posts" class="btn btn-primary btn-lg">Yazıları Keşfet</a>
-                            <a href="#newsletter" class="btn btn-outline-primary btn-lg">Bültene Katıl</a>
-                        </div>
-                    </div>
+<!-- Mission Statement Section -->
+<div class="container-fluid bg-light py-5 mb-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <h1 class="display-4 mb-4">
+                    {% if request.user.is_authenticated %} Codenthia'ya hoş Geldin, {{ request.user.username }} {% else %} Codenthia'ya Hoş Geldin! {% endif %}
+                </h1>
+                <div class="lead mb-4">
+                    <p>Codenthia, teknoloji ve yazılım dünyasındaki en güncel gelişmeleri, programlama dillerini, web teknolojilerini ve dijital dünyanın tüm yeniliklerini sizlerle buluşturan bir bilgi platformudur.</p>
+
+                    <p class="mt-3">Amacımız:</p>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">✓ Yazılım geliştiricilere pratik ve güncel bilgiler sunmak</li>
+                        <li class="mb-2">✓ Teknoloji meraklılarına rehberlik etmek</li>
+                        <li class="mb-2">✓ Programlama dünyasındaki yenilikleri takip etmek ve paylaşmak</li>
+                        <li class="mb-2">✓ Topluluk oluşturarak bilgi alışverişini teşvik etmek</li>
+                    </ul>
+                </div>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="/articles" class="btn btn-primary btn-lg">Yazıları Keşfet</a>
+                    <a href="#newsletter" class="btn btn-outline-primary btn-lg">Bültene Katıl</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="my-5 border-primary">
+<div class="row mt-4">
+    <!-- Main Content -->
+    <main class="col-lg-8 col-md-7 col-sm-12 mb-4">
+        <!-- Featured Post -->
+        <div class="featured-post mb-4">
+            <h2 class="mb-3">Öne Çıkan Yazılar</h2>
+            <div class="card">
+                <img src="https://essentebilisim.com/blog/kodlama-nedir-ve-ne-ise-yarar.jpg" class="card-img-top" alt="Featured Post">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        {% if request.user.is_authenticated %} Hoş Geldin, {{ request.user.username }} {% else %} Hoş Geldin Coder! {% endif %}
+                    </h3>
+                    <p class="card-text">Codenthia'da teknoloji, yazılım ve dijital dünya hakkında en güncel içerikleri bulabilirsiniz...</p>
+                    <a href="/articles" class="btn btn-outline-primary">Devamını Oku</a>
                 </div>
             </div>
         </div>
 
-<hr class="my-5 border-primary">
-        <div class="row mt-4">
-            <!-- Main Content -->
-            <main class="col-lg-8 col-md-7 col-sm-12 mb-4">
-                <!-- Featured Post -->
-                <div class="featured-post mb-4">
-                    <h2 class="mb-3">Öne Çıkan Yazılar</h2>
-                    <div class="card">
-                        <img src="https://essentebilisim.com/blog/kodlama-nedir-ve-ne-ise-yarar.jpg" class="card-img-top" alt="Featured Post">
+        <!-- Recent Posts -->
+        <div class="recent-posts">
+            <h2 class="mb-3">Son Yazılar</h2>
+            <div class="row">
+                {% for post in recent_posts %}
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <img src="https://essentebilisim.com/blog/kodlama-nedir-ve-ne-ise-yarar.jpg" class="card-img-top" alt="https://essentebilisim.com/blog/kodlama-nedir-ve-ne-ise-yarar.jpg">
                         <div class="card-body">
-                            <h3 class="card-title">
-                                {% if request.user.is_authenticated %}
-                                  Hoş Geldin, {{ request.user.username }}
-                                {% else %}
-                                  Hoş Geldin Coder!
-                                {% endif %}
-                            </h3>
-                            <p class="card-text">Codenthia'da teknoloji, yazılım ve dijital dünya hakkında en güncel içerikleri bulabilirsiniz...</p>
-                            <a href="#" class="btn btn-primary">Devamını Oku</a>
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text">{{ post.excerpt }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">{{ post.date_posted|date:"d F Y" }}</small>
+                                <a href="https://essentebilisim.com/blog/kodlama-nedir-ve-ne-ise-yarar.jpg" class="btn btn-outline-primary btn-sm">Devamını Oku</a>
+                            </div>
                         </div>
                     </div>
                 </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
 
-                <!-- Recent Posts -->
-                <div class="recent-posts">
-                    <h2 class="mb-3">Son Yazılar</h2>
-                    <div class="row">
-                        {% for post in recent_posts %}
-                        <div class="col-md-6 mb-4">
-                            <div class="card h-100">
-                                <img src="https://essentebilisim.com/blog/kodlama-nedir-ve-ne-ise-yarar.jpg" class="card-img-top" alt="https://essentebilisim.com/blog/kodlama-nedir-ve-ne-ise-yarar.jpg">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ post.title }}</h5>
-                                    <p class="card-text">{{ post.excerpt }}</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <small class="text-muted">{{ post.date_posted|date:"d F Y" }}</small>
-                                        <a href="https://essentebilisim.com/blog/kodlama-nedir-ve-ne-ise-yarar.jpg" class="btn btn-outline-primary btn-sm">Devamını Oku</a>
-                                    </div>
-                                </div>
-                            </div>
+    <!-- Aside Content -->
+    <aside class="col-lg-4 col-md-5 col-sm-12 mb-4">
+        <div class="sticky-top" style="top: 70px;">
+            <!-- Search Widget -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Arama</h5>
+                    <form action="" method="GET">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Blog'da ara..." name="q">
+                            <button class="btn btn-primary" type="submit">Ara</button>
                         </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Categories Widget -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Kategoriler</h5>
+                    <ul class="list-unstyled">
+                        {% for category in categories %}
+                        <li class="mb-2">
+                            <a href="https://essentebilisim.com/blog/kodlama-nedir-ve-ne-ise-yarar.jpg" class="text-decoration-none">
+
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Popular Tags Widget -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Popüler Etiketler</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for tag in popular_tags %}
+                        <a href="" class="badge bg-secondary text-decoration-none">
+
+                        </a>
                         {% endfor %}
                     </div>
                 </div>
-            </main>
+            </div>
 
-            <!-- Aside Content -->
-            <aside class="col-lg-4 col-md-5 col-sm-12 mb-4">
-                <div class="sticky-top" style="top: 70px;">
-                    <!-- Search Widget -->
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Arama</h5>
-                            <form action="" method="GET">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Blog'da ara..." name="q">
-                                    <button class="btn btn-primary" type="submit">Ara</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+            <!-- Newsletter Widget -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Bültenimize Katılın</h5>
+                    <p class="card-text">En yeni yazılardan haberdar olmak için bültenimize abone olun.</p>
+                    <form action="" method="POST">
 
-                    <!-- Categories Widget -->
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Kategoriler</h5>
-                            <ul class="list-unstyled">
-                                {% for category in categories %}
-                                <li class="mb-2">
-                                    <a href="https://essentebilisim.com/blog/kodlama-nedir-ve-ne-ise-yarar.jpg" class="text-decoration-none">
-                                        
-                                    </a>
-                                </li>
-                                {% endfor %}
-                            </ul>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="E-posta adresiniz" required>
+                            <button class="btn btn-primary" type="submit">Abone Ol</button>
                         </div>
-                    </div>
-
-                    <!-- Popular Tags Widget -->
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Popüler Etiketler</h5>
-                            <div class="d-flex flex-wrap gap-2">
-                                {% for tag in popular_tags %}
-                                <a href="" class="badge bg-secondary text-decoration-none">
-                                   
-                                </a>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Newsletter Widget -->
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Bültenimize Katılın</h5>
-                            <p class="card-text">En yeni yazılardan haberdar olmak için bültenimize abone olun.</p>
-                            <form action="" method="POST">
-                                
-                                <div class="input-group mb-3">
-                                    <input type="email" class="form-control" placeholder="E-posta adresiniz" required>
-                                    <button class="btn btn-primary" type="submit">Abone Ol</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                    </form>
                 </div>
-            </aside>
+            </div>
         </div>
+    </aside>
+</div>
 
 
 
 
 {% endblock body %}
-
-
