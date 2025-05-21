@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-5">
+                    <!-- Hata Kodu Gösterimi -->
+                    <div class="text-center mb-4">
+                        <div class="d-inline-block p-3 bg-dark text-light rounded-3 mb-3">
+                            <code class="h1 text-danger">404</code>
+                        </div>
+                        <h2 class="text-danger mb-3">Kaynak Bulunamadı</h2>
+                        <div class="alert alert-info">
+                            <i class="bi bi-terminal me-2"></i>
+                            <code>GET {{ request.path }}</code> isteği 404 hatası döndürdü
+                        </div>
+                    </div>
+
+                    <!-- Teknik Detaylar -->
+                    <div class="bg-light p-4 rounded-3 mb-4">
+                        <h5 class="mb-3"><i class="bi bi-bug me-2"></i>Teknik Detaylar</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <strong>İstek Metodu:</strong> 
+                                <code>{{ request.method }}</code>
+                                <small class="text-muted d-block mt-1">(Sunucuya gönderilen HTTP istek türü)</small>
+                            </li>
+                            <li class="mb-2">
+                                <strong>İstek Yolu:</strong> 
+                                <code>{{ request.path }}</code>
+                                <small class="text-muted d-block mt-1">(Erişmeye çalıştığınız sayfanın tam yolu)</small>
+                            </li>
+                            <li class="mb-2">
+                                <strong>Durum Kodu:</strong> 
+                                <code>404</code>
+                                <small class="text-muted d-block mt-1">(Sunucunun döndürdüğü hata kodu)</small>
+                            </li>
+                            <li>
+                                <strong>Zaman:</strong> 
+                                <code>{% now "Y-m-d H:i:s" %}</code>
+                                <small class="text-muted d-block mt-1">(Hatanın oluştuğu tarih ve saat)</small>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Olası Çözümler -->
+                    <div class="mb-4">
+                        <h5 class="mb-3"><i class="bi bi-lightbulb me-2"></i>Olası Çözümler</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h6 class="card-title"><i class="bi bi-check-circle me-2"></i>URL Kontrolü</h6>
+                                        <p class="card-text small">
+                                            • URL'de yazım hatası olup olmadığını kontrol edin<br>
+                                            • Büyük/küçük harf kullanımına dikkat edin<br>
+                                            • Gereksiz boşluk veya karakter olmadığından emin olun
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h6 class="card-title"><i class="bi bi-arrow-left-right me-2"></i>Yönlendirme Kontrolü</h6>
+                                        <p class="card-text small">
+                                            • Sayfa başka bir adrese taşınmış olabilir<br>
+                                            • Eski bir bağlantıya tıklamış olabilirsiniz<br>
+                                            • Sayfa geçici olarak kaldırılmış olabilir
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aksiyon Butonları -->
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="{% url 'index' %}" class="btn btn-primary">
+                            <i class="bi bi-house-door me-2"></i>Ana Sayfa
+                        </a>
+                        <a href="javascript:history.back()" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>Önceki Sayfa
+                        </a>
+                        <button onclick="window.location.reload()" class="btn btn-outline-info">
+                            <i class="bi bi-arrow-clockwise me-2"></i>Sayfayı Yenile
+                        </button>
+                    </div>
+
+                    <!-- Geliştirici Notu -->
+                    <div class="mt-4 text-center">
+                        <small class="text-muted">
+                            <i class="bi bi-code-square me-1"></i>
+                            
+                            HTTP 404 hataları hakkında daha detaylı bilgi için 
+                            <a href="https://developer.mozilla.org/tr/docs/Web/HTTP/Status/404" target="_blank" class="text-decoration-none">MDN Web Docs</a>'u ziyaret edebilirsiniz.
+                            <br>
+                            <span class="mt-2 d-block">
+                                <i class="bi bi-info-circle me-1"></i>
+                                404 hatası, sunucunun istenen kaynağı bulamadığını gösterir. 
+                                Bu genellikle URL'nin yanlış yazılması veya sayfanın taşınmış olmasından kaynaklanır.
+                            </span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    code {
+        background-color: #f8f9fa;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-family: 'Consolas', 'Monaco', monospace;
+    }
+    .card {
+        transition: transform 0.2s;
+    }
+    .card:hover {
+        transform: translateY(-2px);
+    }
+    .text-muted {
+        font-size: 0.85rem;
+    }
+</style>
+{% endblock body %} 

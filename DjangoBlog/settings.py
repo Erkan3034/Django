@@ -23,9 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-=d5j!qij26^amlc1ym7hz_91tmb12pbmlakjgor1x0@%8p@9!$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = [] # Bu kod, tüm hostların erişimine izin verir(debug modu true olduğu için)
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -68,6 +69,10 @@ TEMPLATES = [
         },
     },
 ]
+
+
+# Custom error pages
+handler404 = 'article.views.handler404' # Bu kod, 404 hatasının oluştuğu zaman hangi sayfaya yönlendirileceğini belirtir
 
 WSGI_APPLICATION = 'DjangoBlog.wsgi.application'
 
