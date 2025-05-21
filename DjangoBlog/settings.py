@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "article", # Bu kod, article uygulamasını projenin diğer bölümlerine entegre eder
     "user",
-    'prose_editor', # Zengin metin editörü için eklendi
+    'ckeditor', # Zengin metin editörü için eklendi
 ]
 
 MIDDLEWARE = [
@@ -138,3 +138,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'removePlugins': 'stylesheetparser',
+        'allowedContent': True,
+        'width': '100%',
+
+}
+}

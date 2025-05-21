@@ -13,4 +13,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name="dashboard"), # Bu kod, kontrol paneli sayfasını temsil eder ve dashboard fonksiyonunu çağırır
     path('addarticle/', views.addarticle, name="addarticle"), # Bu kod, makale ekleme sayfasını temsil eder ve addarticle fonksiyonunu çağırır
     path('detail/<int:id>/', views.detail, name="detail"), # Bu kod, makale detay sayfasını temsil eder ve detail fonksiyonunu çağırır
+    path('delete/<int:id>/', views.deleteArticle, name="delete"), # Bu kod, makale silme sayfasını temsil eder ve delete fonksiyonunu çağırır
+    path('update/<int:id>/', views.updateArticle, name="update"), # Bu kod, makale güncelleme sayfasını temsil eder ve update fonksiyonunu çağırır
+
 ]

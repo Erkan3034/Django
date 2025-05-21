@@ -53,7 +53,24 @@ def addarticle(request):
         return redirect("article:dashboard") #Makaleyi kaydettikten sonra kontrol paneline yönlendir
     return render(request, 'addarticle.html', {'form': form})
 
+#================================================================
+def deleteArticle(request, id):
+    article = get_object_or_404(Article, id=id)
+    article.delete()
+    messages.success(request, "Makale başarıyla silindi")
+    return redirect("article:dashboard")
 
+#================================================================
+def updateArticle(request, id):
+    article = get_object_or_404(Article, id=id)
+    form = ArticleForm(request.POST or None, request.FILES or None, instance=article)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Makale başarıyla güncellendi")
+        return redirect("article:dashboard")
+    return render(request, 'updatearticle.html', {'form': form})
+
+#================================================================
 #Kontrol paneli sayfası
 @login_required
 def dashboard(request):

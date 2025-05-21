@@ -1,0 +1,43 @@
+{% extends "layout.html" %} {% block body %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-pencil-square me-2"></i>Makaleyi Güncelle
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <!-- Formu göster -->
+                    <form method="post" enctype="multipart/form-data">
+
+                        {% csrf_token %} {{ form.media }}
+                        <!-- Zengin metin editörü için gerekli -->
+                        {{ form.non_field_errors }}
+                        <div class="mb-3">
+                            <label for="id_title" class="form-label">Başlık</label> {{ form.title.errors }} {{ form.title }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_content" class="form-label">İçerik</label> {{ form.content.errors }} {{ form.content }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_image" class="form-label">Görsel</label> {{ form.image.errors }} {{ form.image }}
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save me-2"></i>Makaleyi Güncelle
+                            </button>
+                        </div>
+                    </form>
+                    <!-- Formu göster Son-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
