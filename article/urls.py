@@ -7,5 +7,6 @@ from .import views
 app_name = "article"
 
 urlpatterns = [
-    path('create/', views.index, name ="index"),
+    path('create/', views.index, name="index"),
+    path('', views.articles, name="articles"), # Bu kod, makaleler sayfasını temsil eder ve articles fonksiyonunu çağırır
 ]

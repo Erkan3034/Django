@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="container my-5">
+    <h1 class="mb-4">Makaleler</h1>
+    <!-- En güncel makale (öne çıkan) -->
+    {% if featured_article %}
+    <div class="row mb-5">
+        <div class="col-md-8">
+            <div class="card mb-4 shadow-sm">
+                <img src="{{ featured_article.image.url }}" class="card-img-top" alt="{{ featured_article.title }}">
+                <div class="card-body">
+                    <span class="badge bg-danger mb-2">MAKALELER</span>
+                    <h2 class="card-title">{{ featured_article.title }}</h2>
+                    <p class="card-text">{{ featured_article.summary|truncatewords:25 }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted">{{ featured_article.author }}</small>
+                        <small class="text-muted">{{ featured_article.published_date }}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <h3 class="mb-4">En güncel makaleler</h3>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for article in articles %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}">
+                <div class="card-body">
+                    <span class="badge bg-danger mb-2">MAKALELER</span>
+                    <h5 class="card-title">{{ article.title }}</h5>
+                    <p class="card-text">{{ article.summary|truncatewords:15 }}</p>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <small class="text-muted">{{ article.author }}</small>
+                    <small class="text-muted">{{ article.published_date }}</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock body %}
