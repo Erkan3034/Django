@@ -65,7 +65,9 @@ def updateArticle(request, id):
     article = get_object_or_404(Article, id=id)
     form = ArticleForm(request.POST or None, request.FILES or None, instance=article)
     if form.is_valid():
-        form.save()
+        article = form.save(commit=False)
+        article.author = request.user
+        article.save()
         messages.success(request, "Makale başarıyla güncellendi")
         return redirect("article:dashboard")
     return render(request, 'updatearticle.html', {'form': form})
