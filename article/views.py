@@ -114,3 +114,6 @@ def profile(request):
         'articles': articles,
     }
     return render(request, 'user/profile.html', context)
+#================================================================
+def privacy(request):
+    return render(request, 'privacy-policy.html')

@@ -34,6 +34,7 @@ urlpatterns = [
     path('contact/', views.contact, name ="contact"), # Bu kod, iletişim sayfasını temsil eder ve contact fonksiyonunu çağırır
 
     path('profile/', views.profile, name ="profile"), # Bu kod, profil sayfasını temsil eder ve profil fonksiyonunu çağırır
+    path('privacy-policy/', views.privacy, name ="privacy"), # Bu kod, privacy sayfasını temsil eder ve search fonksiyonunu çağırır
 ]
 
 if settings.DEBUG:
