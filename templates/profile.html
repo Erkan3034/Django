@@ -1,0 +1,245 @@
+{% extends "layout.html" %} {% load static %} {% block title %}Profilim - {{ user.username }} | Codenthia{% endblock %} {% block body %}
+<div class="container py-4">
+    <!-- Profile Header -->
+    <div class="row g-4">
+        <!-- Left Column - Profile Info -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <!-- Profile Image and Basic Info -->
+                    <div class="text-center mb-4">
+                        <div class="position-relative d-inline-block mb-3">
+                            {% if user.profile.avatar %}
+                            <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1);"> {% else %}
+                            <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center" style="width: 120px; height: 120px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                                <i class="bi bi-person-fill text-white" style="font-size: 3rem;"></i>
+                            </div>
+                            {% endif %}
+                            <button class="btn btn-sm btn-light position-absolute bottom-0 end-0 rounded-circle shadow-sm" style="width: 32px; height: 32px;" title="Fotoğrafı Değiştir">
+                                <i class="bi bi-camera"></i>
+                            </button>
+                        </div>
+                        <h4 class="mb-1">{{ user.get_full_name|default:user.username }}</h4>
+                        <p class="text-muted mb-2">@{{ user.username }}</p>
+                        {% if user.profile.bio %}
+                        <p class="text-muted small mb-3">{{ user.profile.bio }}</p>
+                        {% endif %}
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="/user/edit-profile" class="btn btn-primary btn-sm">
+                                <i class="bi bi-pencil me-1"></i>Profili Düzenle
+                            </a>
+                            <button class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-share me-1"></i>Paylaş
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Profile Stats -->
+                    <div class="border-top pt-4">
+                        <div class="row g-3 text-center">
+                            <div class="col-4">
+                                <h5 class="mb-1">{{ user.articles.count }}</h5>
+                                <small class="text-muted">Makale</small>
+                            </div>
+                            <div class="col-4">
+                                <h5 class="mb-1">{{ user.comments.count }}</h5>
+                                <small class="text-muted">Yorum</small>
+                            </div>
+                            <div class="col-4">
+                                <h5 class="mb-1">{{ user.profile.followers.count }}</h5>
+                                <small class="text-muted">Takipçi</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="border-top pt-4 mt-4">
+                        <h6 class="mb-3">İletişim Bilgileri</h6>
+                        <ul class="list-unstyled mb-0">
+                            {% if user.email %}
+                            <li class="mb-2 d-flex align-items-center">
+                                <i class="bi bi-envelope text-primary me-2"></i>
+                                <span class="small">{{ user.email }}</span>
+                            </li>
+                            {% endif %} {% if user.profile.website %}
+                            <li class="mb-2 d-flex align-items-center">
+                                <i class="bi bi-globe text-primary me-2"></i>
+                                <a href="{{ user.profile.website }}" class="small text-decoration-none" target="_blank">{{ user.profile.website }}</a>
+                            </li>
+                            {% endif %} {% if user.profile.location %}
+                            <li class="d-flex align-items-center">
+                                <i class="bi bi-geo-alt text-primary me-2"></i>
+                                <span class="small">{{ user.profile.location }}</span>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column - Content -->
+        <div class="col-lg-8">
+            <!-- Activity Tabs -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-0">
+                    <ul class="nav nav-tabs nav-fill border-0" id="profileTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active px-4 py-3" id="articles-tab" data-bs-toggle="tab" data-bs-target="#articles" type="button" role="tab">
+                                <i class="bi bi-file-text me-2"></i>Makalelerim
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link px-4 py-3" id="comments-tab" data-bs-toggle="tab" data-bs-target="#comments" type="button" role="tab">
+                                <i class="bi bi-chat-dots me-2"></i>Yorumlarım
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link px-4 py-3" id="likes-tab" data-bs-toggle="tab" data-bs-target="#likes" type="button" role="tab">
+                                <i class="bi bi-heart me-2"></i>Beğendiklerim
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content p-4" id="profileTabsContent">
+                        <!-- Articles Tab -->
+                        <div class="tab-pane fade show active" id="articles" role="tabpanel">
+                            {% if user.articles.all %} {% for article in user.articles.all %}
+                            <div class="card border-0 shadow-sm mb-3">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="card-title mb-0">
+                                            <a href="/articles/{{ article.id }}" class="text-decoration-none">{{ article.title }}</a>
+                                        </h5>
+                                        <div class="dropdown">
+                                            <button class="btn btn-link text-muted p-0" type="button" data-bs-toggle="dropdown">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a class="dropdown-item" href="/articles/edit/{{ article.id }}"><i class="bi bi-pencil me-2"></i>Düzenle</a></li>
+                                                <li><a class="dropdown-item text-danger" href="/articles/delete/{{article.id}}" onclick="return confirm('Bu makaleyi silmek istediğinizden emin misiniz?')"><i class="bi bi-trash me-2"></i>Sil</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <p class="card-text text-muted small mb-2">{{ article.content|striptags|truncatewords:30 }}</p>
+                                    <div class="d-flex align-items-center gap-3 text-muted small">
+                                        <span><i class="bi bi-calendar me-1"></i>{{ article.created_date|date:"d M Y" }}</span>
+                                        <span><i class="bi bi-eye me-1"></i>{{ article.views }} görüntülenme</span>
+                                        <span><i class="bi bi-chat me-1"></i>{{ article.comments.count }} yorum</span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %} {% else %}
+                            <div class="text-center py-5">
+                                <i class="bi bi-file-text display-1 text-muted mb-3"></i>
+                                <h5>Henüz makale yazmamışsınız</h5>
+                                <p class="text-muted">İlk makalenizi yazmak için hemen başlayın!</p>
+                                <a href="/articles/addarticle" class="btn btn-primary">
+                                    <i class="bi bi-plus-lg me-1"></i>Yeni Makale
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Comments Tab -->
+                        <div class="tab-pane fade" id="comments" role="tabpanel">
+                            {% if user.comments.all %} {% for comment in user.comments.all %}
+                            <div class="card border-0 shadow-sm mb-3">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <small class="text-muted">Şu makaleye yorum yaptınız:</small>
+                                            <h6 class="mb-0">
+                                                <a href="/articles/{{ comment.article.id }}" class="text-decoration-none">{{ comment.article.title }}</a>
+                                            </h6>
+                                        </div>
+                                        <small class="text-muted">{{ comment.created_date|date:"d M Y" }}</small>
+                                    </div>
+                                    <p class="card-text mb-0">{{ comment.content }}</p>
+                                </div>
+                            </div>
+                            {% endfor %} {% else %}
+                            <div class="text-center py-5">
+                                <i class="bi bi-chat-dots display-1 text-muted mb-3"></i>
+                                <h5>Henüz yorum yapmamışsınız</h5>
+                                <p class="text-muted">Makalelere yorum yaparak tartışmalara katılın!</p>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Likes Tab -->
+                        <div class="tab-pane fade" id="likes" role="tabpanel">
+                            {% if user.likes.all %} {% for article in user.likes.all %}
+                            <div class="card border-0 shadow-sm mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-2">
+                                        <a href="/articles/{{ article.id }}" class="text-decoration-none">{{ article.title }}</a>
+                                    </h5>
+                                    <p class="card-text text-muted small mb-2">{{ article.content|striptags|truncatewords:20 }}</p>
+                                    <div class="d-flex align-items-center gap-3 text-muted small">
+                                        <span><i class="bi bi-person me-1"></i>{{ article.author.get_full_name|default:article.author.username }}</span>
+                                        <span><i class="bi bi-calendar me-1"></i>{{ article.created_date|date:"d M Y" }}</span>
+                                        <span><i class="bi bi-heart-fill text-danger me-1"></i>{{ article.likes.count }} beğeni</span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %} {% else %}
+                            <div class="text-center py-5">
+                                <i class="bi bi-heart display-1 text-muted mb-3"></i>
+                                <h5>Henüz beğendiğiniz makale yok</h5>
+                                <p class="text-muted">Beğendiğiniz makaleler burada görünecek!</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .nav-tabs .nav-link {
+        color: #6c757d;
+        border: none;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s ease;
+    }
+    
+    .nav-tabs .nav-link:hover {
+        color: #0d6efd;
+        background: #f8f9fa;
+    }
+    
+    .nav-tabs .nav-link.active {
+        color: #0d6efd;
+        background: none;
+        border-bottom: 2px solid #0d6efd;
+    }
+    
+    .card {
+        transition: transform 0.2s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-2px);
+    }
+    
+    .dropdown-item {
+        transition: all 0.2s ease;
+    }
+    
+    .dropdown-item:hover {
+        background-color: #f8f9fa;
+        transform: translateX(5px);
+    }
+    
+    .btn-link {
+        text-decoration: none;
+    }
+    
+    .btn-link:hover {
+        opacity: 0.8;
+    }
+</style>
+{% endblock %}

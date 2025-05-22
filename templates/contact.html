@@ -1,0 +1,48 @@
+{% extends "layout.html" %} {% load static %} {% block body %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card shadow border-0">
+                <div class="card-body p-5">
+                    <h2 class="mb-4 fw-bold text-primary">
+                        <i class="bi bi-envelope-at me-2"></i>İletişim
+                    </h2>
+                    <p class="mb-4 text-secondary">
+                        Her türlü soru, öneri veya iş birliği için bize ulaşabilirsiniz. Size en kısa sürede dönüş yapacağız.
+                    </p>
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Adınız Soyadınız</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Adınız Soyadınız" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-posta Adresiniz</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="ornek@mail.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Konu</label>
+                            <input type="text" class="form-control" id="subject" name="subject" placeholder="Konu başlığı" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Mesajınız</label>
+                            <textarea class="form-control" id="message" name="message" rows="6" placeholder="Mesajınızı buraya yazın..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg px-4 shadow-sm">
+                            <i class="bi bi-send me-2"></i>Gönder
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p class="text-muted small">
+                    <i class="bi bi-info-circle me-1"></i> Bilgileriniz gizli tutulur ve üçüncü şahıslarla paylaşılmaz.
+                </p>
+            </div>
+        </div>
+        <div class="col-lg-5 d-none d-lg-flex align-items-center justify-content-center">
+            <img src="{% static 'images/contact.svg' %}" alt="İletişim" class="img-fluid" style="max-height: 340px;">
+        </div>
+    </div>
+</div>
+{% endblock %}

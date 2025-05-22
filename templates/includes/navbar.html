@@ -1,15 +1,16 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background: linear-gradient(311deg, #4b6c93, #769ac5); box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top border-bottom" style="background: linear-gradient(90deg, #e3eafc 0%, #f8f9fa 100%);">
     <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand d-flex align-items-center" href="/">
-            <i class="bi bi-code-square me-2"></i>
-            <span class="fw-bold">Codenthia</span>
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+            <span class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                <i class="bi bi-code-slash fs-4"></i>
+            </span>
+            <span class="fw-bold fs-4" style="letter-spacing: 1px;">Codenthia</span>
         </a>
 
         <!-- Mobile Toggle Button -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
-                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -18,46 +19,111 @@
             <!-- Search Form -->
             <form class="d-flex mx-auto" style="max-width: 400px;">
                 <div class="input-group">
-                    <input class="form-control" type="search" placeholder="codenthia'da ara..." aria-label="Search">
-                    <button class="btn btn-light" type="submit">
+                    <input class="form-control rounded-start-pill border-end-0" type="search" placeholder="codenthia'da ara..." aria-label="Search">
+                    <button class="btn btn-primary rounded-end-pill border-start-0" type="submit">
                         <i class="bi bi-search"></i>
                     </button>
                 </div>
             </form>
 
             <!-- Navigation Links -->
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-lg-2">
                 <li class="nav-item">
-                    <a class="nav-link" href="/articles"></i>Makaleler</a>
+                    <a class="nav-link px-3" href="/articles">Makaleler</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/about"></i>Hakkımızda</a>
+                    <a class="nav-link px-3" href="/about">Hakkımızda</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/iletisim"></i>İletişim</a>
+                    <a class="nav-link px-3" href="/contact">İletişim</a>
                 </li>
-                
                 <!-- User Menu Dropdown -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" 
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle me-1"></i>Hesabım
+                    <a class="nav-link dropdown-toggle d-flex align-items-center gap-1" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle fs-5"></i>
+                        <span>Hesabım</span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <ul class="dropdown-menu dropdown-menu-end border-0" style="margin-top: 0.5rem; border-radius: 0.8rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);" aria-labelledby="userDropdown">
                         {% if request.user.is_authenticated %}
-                            <!-- Giriş yapmış kullanıcılar için menü -->
-                            <li><a class="dropdown-item" href="/profil"><i class="bi bi-person me-2"></i>Profilim</a></li>
-                            <li><a class="dropdown-item" href="/articles/dashboard"><i class="bi bi-speedometer2 me-2"></i>Kontrol Paneli</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/user/logout"><i class="bi bi-box-arrow-right me-2"></i>Çıkış Yap</a></li>
+                        <li>
+                            <a class="dropdown-item py-2 px-3 d-flex align-items-center" href="/profile" style="transition: all 0.2s ease;">
+                                <i class="bi bi-person me-2 text-primary"></i>
+                                <span>Profilim</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item py-2 px-3 d-flex align-items-center" href="/articles/dashboard" style="transition: all 0.2s ease;">
+                                <i class="bi bi-speedometer2 me-2 text-primary"></i>
+                                <span>Kontrol Paneli</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider mx-3 my-2" style="opacity: 0.1;">
+                        </li>
+                        <li>
+                            <a class="dropdown-item py-2 px-3 d-flex align-items-center text-danger" href="/user/logout" style="transition: all 0.2s ease;">
+                                <i class="bi bi-box-arrow-right me-2"></i>
+                                <span>Çıkış Yap</span>
+                            </a>
+                        </li>
                         {% else %}
-                            <!-- Giriş yapmamış kullanıcılar için menü -->
-                            <li><a class="dropdown-item" href="/user/login"><i class="bi bi-box-arrow-in-right me-2"></i>Giriş Yap</a></li>
-                            <li><a class="dropdown-item" href="/user/register"><i class="bi bi-person-plus me-2"></i>Kayıt Ol</a></li>
+                        <li>
+                            <a class="dropdown-item py-2 px-3 d-flex align-items-center" href="/user/login" style="transition: all 0.2s ease;">
+                                <i class="bi bi-box-arrow-in-right me-2 text-primary"></i>
+                                <span>Giriş Yap</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item py-2 px-3 d-flex align-items-center" href="/user/register" style="transition: all 0.2s ease;">
+                                <i class="bi bi-person-plus me-2 text-primary"></i>
+                                <span>Kayıt Ol</span>
+                            </a>
+                        </li>
                         {% endif %}
                     </ul>
                 </li>
             </ul>
         </div>
     </div>
-</nav> 
+</nav>
+
+<style>
+    .navbar-nav .nav-link {
+        font-weight: 500;
+        color: #4b6c93 !important;
+        transition: color 0.2s, border-bottom 0.2s;
+        border-bottom: 2px solid transparent;
+    }
+    
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link.active {
+        color: #0d6efd !important;
+        border-bottom: 2px solid #0d6efd;
+        background: #e3eafc;
+        border-radius: 0.5rem;
+    }
+    
+    .navbar-brand .bg-primary {
+        box-shadow: 0 2px 8px rgba(13, 110, 253, 0.10);
+    }
+    
+    .dropdown-item:hover {
+        background-color: #f8f9fa;
+        transform: translateX(0.5px);
+    }
+    
+    .dropdown-menu {
+        animation: dropdownFade 0.2s ease;
+    }
+    
+    @keyframes dropdownFade {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>

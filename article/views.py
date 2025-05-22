@@ -7,13 +7,23 @@ from django.contrib.auth.decorators import login_required
 
 #================================================================
 def index(request):
+    articles = Article.objects.all().order_by('-created_date')[:2]  # Sadece 2 makale
+    categories = [
+        {"name": "Python", "url": "/category/python"},
+        {"name": "Django", "url": "/category/django"},
+        {"name": "Web", "url": "/category/web"},
+    ]
+    popular_tags = [
+        {"name": "backend", "url": "/tag/backend"},
+        {"name": "frontend", "url": "/tag/frontend"},
+        {"name": "ai", "url": "/tag/ai"},
+    ]
     context = {
-        "number1": 10,
-        "number2": 20,
-        "number3": 30,
+        "articles": articles,
+        "categories": categories,
+        "popular_tags": popular_tags,
     }
-    return render(request, 'index.html' , context) # Bu kod, index.html şablonunu render eder ve döndürür
-    #return HttpResponse() # Bu kod, ana sayfayı temsil eder
+    return render(request, 'index.html', context) #return HttpResponse() # Bu kod, ana sayfayı temsil eder
 
 #================================================================
 def about(request):
@@ -91,3 +101,16 @@ def handler404(request, exception):
     return render(request, '404.html', status=404)
 
 #================================================================
+def contact(request):
+    return render(request, 'contact.html')
+
+#================================================================
+@login_required(login_url="login")
+def profile(request):
+    user = request.user
+    articles = Article.objects.filter(author=user).order_by('-created_date')
+    context = {
+        'user': user,
+        'articles': articles,
+    }
+    return render(request, 'user/profile.html', context)

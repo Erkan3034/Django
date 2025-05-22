@@ -74,37 +74,85 @@
 
 
     <!-- Footer -->
-    <footer class="footer mt-auto py-4  text-light" style="background: linear-gradient(311deg, #4b6c93, #769ac5);box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
+    <footer class="footer mt-auto py-4 text-light" style="background: linear-gradient(90deg, #4b6c93 0%, #769ac5 100%); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12); border-top-left-radius: 1.5rem; border-top-right-radius: 1.5rem;">
         <div class="container">
             <div class="row text-center text-md-start align-items-center">
-                <div class="col-md-4 mb-3 mb-md-0">
-                    <h5 class="fw-bold mb-2">Codenthia Blog</h5>
-                    <p class="small text-muted">Yazılım, yapay zeka ve teknolojiyi paylaşan bir geliştirici platformu.</p>
+                <div class="col-md-4 mb-3 mb-md-0 d-flex flex-column align-items-center align-items-md-start">
+                    <div class="d-flex align-items-center mb-2 gap-2">
+                        <span class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                            <i class="bi bi-code-slash fs-4"></i>
+                        </span>
+                        <span class="fw-bold fs-5">Codenthia Blog</span>
+                    </div>
+                    <p class="small text-white-50 mb-0">Yazılım, yapay zeka ve teknolojiyi paylaşan bir geliştirici platformu.</p>
                 </div>
                 <div class="col-md-4 mb-3 mb-md-0 text-center">
-                    <a href="https://github.com/Erkan3034" class="text-light me-3" target="_blank">
-                        <i class="bi bi-github fs-4"></i>
-                    </a>
-                    <a href="https://linkedin.com/in/erkan1205" class="text-light me-3" target="_blank">
-                        <i class="bi bi-linkedin fs-4"></i>
-                    </a>
-                    <a href="https://twitter.com/Erkan_0630" class="text-light me-3" target="_blank">
-                        <i class="bi bi-twitter fs-4"></i>
-                    </a>
-                    <a href="mailto:turguterkan1306@gmail.com" class="text-light" target="_blank">
-                        <i class="bi bi-envelope fs-4"></i>
-                    </a>
+                    <div class="d-flex justify-content-center gap-3 mb-2">
+                        <a href="https://github.com/Erkan3034" class="footer-social" target="_blank" title="GitHub">
+                            <i class="bi bi-github fs-4"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/erkan1205" class="footer-social" target="_blank" title="LinkedIn">
+                            <i class="bi bi-linkedin fs-4"></i>
+                        </a>
+                        <a href="https://twitter.com/Erkan_0630" class="footer-social" target="_blank" title="Twitter">
+                            <i class="bi bi-twitter fs-4"></i>
+                        </a>
+                        <a href="mailto:turguterkan1306@gmail.com" class="footer-social" target="_blank" title="Mail">
+                            <i class="bi bi-envelope fs-4"></i>
+                        </a>
+                    </div>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="/privacy-policy" class="footer-link">Gizlilik Politikası</a>
+                        <span class="text-white-50">|</span>
+                        <a href="/contact" class="footer-link">İletişim</a>
+                    </div>
                 </div>
-                <div class="col-md-4 text-md-end text-center">
-                    <p class="small text-muted mb-0">© 2025 Codenthia. Tüm hakları saklıdır.</p>
-                    <p class="small text-muted mb-0">
-                        <a href="/privacy-policy" class="text-muted text-decoration-none">Gizlilik Politikası</a> |
-                        <a href="/contact" class="text-muted text-decoration-none">İletişim</a>
-                    </p>
+                <div class="col-md-4 text-md-end text-center mt-3 mt-md-0">
+                    <p class="small text-white-50 mb-1">© 2025 <span class="fw-bold text-white">Codenthia</span>. Tüm hakları saklıdır.</p>
+                    <p class="small text-white-50 mb-0">Geliştirici: <a href="https://github.com/Erkan3034" class="footer-link">Erkan Turgut</a></p>
                 </div>
             </div>
         </div>
     </footer>
+    <style>
+    .footer {
+        border-top-left-radius: 1.5rem;
+        border-top-right-radius: 1.5rem;
+    }
+    .footer-social {
+        color: #fff;
+        background: rgba(255,255,255,0.08);
+        border-radius: 50%;
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s, color 0.2s, transform 0.2s;
+        font-size: 1.3rem;
+    }
+    .footer-social:hover {
+        background: #fff;
+        color: #4b6c93;
+        transform: translateY(-3px) scale(1.1);
+        text-decoration: none;
+    }
+    .footer-link {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+    .footer-link:hover {
+        color: #ffd700;
+        text-decoration: underline;
+    }
+    @media (max-width: 767px) {
+        .footer {
+            border-radius: 0;
+        }
+    }
+    </style>
 
 
     <!-- Bootstrap Bundle with Popper -->

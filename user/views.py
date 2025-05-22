@@ -4,6 +4,8 @@ from django.contrib.auth.models import User # kullanıcı modeli
 from django.contrib.auth import login, authenticate, logout # login, authenticate, logout fonksiyonları
 from django.db import IntegrityError
 from django.contrib import messages # flashmesajları göstermek için
+from django.contrib.auth.decorators import login_required
+from article.models import Article
 
 
 
@@ -71,3 +73,13 @@ def logoutUser(request):
 
 def dashboard(request):
     return render(request, 'dashboard.html')
+
+@login_required(login_url="login")
+def profile(request):
+    user = request.user
+    articles = Article.objects.filter(author=user).order_by('-created_date')
+    context = {
+        'user': user,
+        'articles': articles,
+    }
+    return render(request, 'user/profile.html', context)

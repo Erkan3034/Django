@@ -31,6 +31,9 @@ urlpatterns = [
 
     path('user/', include('user.urls')), # Bu kod, kullanıcı sayfasını temsil eder ve user.urls dosyasını içe aktarır
 
+    path('contact/', views.contact, name ="contact"), # Bu kod, iletişim sayfasını temsil eder ve contact fonksiyonunu çağırır
+
+    path('profile/', views.profile, name ="profile"), # Bu kod, profil sayfasını temsil eder ve profil fonksiyonunu çağırır
 ]
 
 if settings.DEBUG:
