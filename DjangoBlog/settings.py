@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "article", # Bu kod, article uygulamasını projenin diğer bölümlerine entegre eder
     "user",
     'ckeditor', # Zengin metin editörü için eklendi
+    'django_cleanup.apps.CleanupConfig', # Bu kod, Django'nun dosya silme işlemlerini otomatikleştirir
 ]
 
 MIDDLEWARE = [
