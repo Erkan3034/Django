@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from .forms import ArticleForm
 from django.contrib import messages
 from .models import Article
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required # Bu kod, kullanıcının giriş yapmış olup olmadığını kontrol eder(login_required)
 # Create your views here.
 
 #================================================================
@@ -36,6 +36,7 @@ def detail(request, id): # Bu kod, makale detay sayfasını temsil eder ve detai
     return render(request, 'detail.html', {'article': article})
 
 #================================================================
+@login_required(login_url="user:login")
 def create(request):
     return HttpResponse("Yazı Oluştur")
 
@@ -53,6 +54,7 @@ def articles(request):
     
 
 #================================================================
+@login_required(login_url="user:login") #Eğer kullanıcı giriş yapmadan bu sayfaya ulaşırsa login sayfasına yönlendir
 def addarticle(request):
     form = ArticleForm(request.POST or None, request.FILES or None)
     if form.is_valid(): # Bu kod, formun geçerli olup olmadığını kontrol eder
@@ -64,6 +66,7 @@ def addarticle(request):
     return render(request, 'addarticle.html', {'form': form})
 
 #================================================================
+@login_required(login_url="user:login")
 def deleteArticle(request, id):
     article = get_object_or_404(Article, id=id)
     article.delete()
@@ -71,6 +74,7 @@ def deleteArticle(request, id):
     return redirect("article:dashboard")
 
 #================================================================
+@login_required(login_url="user:login")
 def updateArticle(request, id):
     article = get_object_or_404(Article, id=id)
     form = ArticleForm(request.POST or None, request.FILES or None, instance=article)
@@ -84,7 +88,7 @@ def updateArticle(request, id):
 
 #================================================================
 #Kontrol paneli sayfası
-@login_required
+@login_required(login_url="user:login")
 def dashboard(request):
     user_articles = Article.objects.filter(author=request.user).order_by('-created_date') # Bu kod, kullanıcının yazdığı makaleleri oluşturma tarihine göre sıralar
     other_articles = Article.objects.none()
@@ -105,7 +109,7 @@ def contact(request):
     return render(request, 'contact.html')
 
 #================================================================
-@login_required(login_url="login")
+@login_required(login_url="user:login")
 def profile(request):
     user = request.user
     articles = Article.objects.filter(author=user).order_by('-created_date')
