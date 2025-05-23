@@ -2,7 +2,10 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Article
+from .models import Article, Comment
+
+
+admin.site.register(Comment) # admin panelinde Comment modelini görüntülemek/özelleştirmek için kullanılır
 
 @admin.register(Article) # admin panelinde Article modelini görüntülemek/özelleştirmek için kullanılır
 class ArticleAdmin(admin.ModelAdmin): # admin panelinde Article modelini görüntülemek/özelleştirmek için kullanılır

@@ -1,7 +1,7 @@
-from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
-from .forms import ArticleForm
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404 ,reverse
+from .forms import ArticleForm, CommentForm
 from django.contrib import messages
-from .models import Article
+from .models import Article, Comment # Bu kod, Article ve Comment modellerini import eder
 from django.contrib.auth.decorators import login_required # Bu kod, kullanıcının giriş yapmış olup olmadığını kontrol eder(login_required)
 from django.db import models
 # Create your views here.
@@ -32,9 +32,27 @@ def about(request):
     #return HttpResponse() # Bu kod, makaleler sayfasını temsil eder
 
 #================================================================
-def detail(request, id): # Bu kod, makale detay sayfasını temsil eder ve detail fonksiyonunu çağırır
-    article = get_object_or_404(Article, id=id)  # Bu kod, makaleyi alır ve id'ye göre filtreler eğer id yoksa 404 hatası döner
-    return render(request, 'detail.html', {'article': article})
+def detail(request, id):
+    article = get_object_or_404(Article, id=id)
+    comments = article.comments.all() # Bu kod, makaleye ait tüm yorumları alır
+    
+    if request.method == "POST":
+        comment_form = CommentForm(request.POST) # Bu kod, yorum formunu alır
+        if comment_form.is_valid(): # Bu kod, formun geçerli olup olmadığını kontrol eder
+            comment = comment_form.save(commit=False) # Bu kod, yorumu oluşturur
+            comment.article = article # Bu kod, yorumun makalesini belirler
+            comment.save() # Bu kod, yorumu kaydeder
+            messages.success(request, "Yorumunuz başarıyla eklendi.")
+            return redirect("article:detail", id=id )
+    else:
+        comment_form = CommentForm()
+    
+    context = {
+        'article': article,
+        'comments': comments, # Bu kod, makaleye ait tüm yorumları alır
+        'comment_form': comment_form,
+    }
+    return render(request, 'detail.html', context)
 
 #================================================================
 def articles(request):
@@ -137,3 +155,16 @@ def profile(request):
 #================================================================
 def privacy(request):
     return render(request, 'privacy-policy.html')
+
+#================================================================
+def addcomment(request, id):
+    article = get_object_or_404(Article, id=id) # makaleyi al
+    if request.method == "POST": # POST isteği varsa
+        comment_form = CommentForm(request.POST) # yorum formunu al
+        if comment_form.is_valid(): # form geçerliyse
+            comment = comment_form.save(commit=False) # yorumu oluştur
+            comment.article = article
+            comment.save()
+            messages.success(request, "Yorumunuz başarıyla eklendi.")
+            
+    return redirect(reverse("article:detail", kwargs={"id": id})) #reverse fonksiyonu, URL'i ters çevirir

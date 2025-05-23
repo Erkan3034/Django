@@ -21,7 +21,144 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Yorumlar Bölümü  Start-->
+            <div class="card shadow-lg mt-4">
+                <div class="card-body">
+                    <h3 class="card-title mb-4">
+                        <i class="bi bi-chat-dots"></i> Yorumlar
+                        <small class="text-muted">({{ comments.count }})</small>
+                    </h3>
+
+                    <!-- Yorum Formu -->
+                    <form method="post" class="mb-4" action="{% url 'article:comment' article.id %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ comment_form.comment_author.label_tag }} {{ comment_form.comment_author }}
+                            <!-- Bu kod, yorum yapan kişinin adını alır -->
+                        </div>
+                        <div class="mb-3">
+                            {{ comment_form.comment_content.label_tag }} {{ comment_form.comment_content }}
+                            <!-- Bu kod, yorumun içeriğini alır -->
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-send"></i> Yorum Yap
+                        </button>
+                    </form>
+
+                    <!-- Mevcut Yorumlar -->
+                    {% if comments %} {% for comment in comments %}
+                    <div class="comment-card mb-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="comment-avatar me-3">
+                                <span>
+                                    {% if comment.comment_author %}
+                                        {{ comment.comment_author|first|upper }} <!-- Bu kod, yorum yapan kişinin adının ilk harfini alır -->
+                                    {% else %}
+                                        <i class="bi bi-person"></i>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="flex-grow-1">
+                                <span class="comment-author">{{ comment.comment_author }}</span>
+                                <span class="comment-date ms-2">
+                                    <i class="bi bi-clock"></i> {{ comment.comment_date|date:"d M Y H:i" }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            {{ comment.comment_content|linebreaks }}
+                        </div>
+                    </div>
+                    {% endfor %} {% else %}
+                    <!-- Bu kod, yorum yapılmamışsa yorum yapılması için bir mesaj gösterir -->
+                    <div class="text-center py-4">
+                        <i class="bi bi-chat-square-text display-4 text-muted mb-3"></i>
+                        <p class="text-muted mb-0">Henüz yorum yapılmamış. İlk yorumu siz yapın!</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Yorumlar Bölümü Sonu-->
         </div>
     </div>
 </article>
+
+<style>
+    .avatar {
+        min-width: 36px;
+        min-height: 36px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    }
+    
+    .list-group-item {
+        background: #f8f9fa;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+    
+    .comment-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 2px 12px rgba(80, 80, 120, 0.07);
+        padding: 1.2rem 1.5rem;
+        transition: box-shadow 0.2s;
+        border: 1px solid #f0f0f0;
+    }
+    
+    .comment-card:hover {
+        box-shadow: 0 4px 24px rgba(80, 80, 120, 0.13);
+    }
+    
+    .comment-avatar {
+        width: 42px;
+        height: 42px;
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: #fff;
+        font-weight: 600;
+        font-size: 1.3rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(106, 17, 203, 0.08);
+    }
+    
+    .comment-author {
+        font-weight: 600;
+        font-size: 1.08rem;
+        color: #222;
+        letter-spacing: 0.01em;
+    }
+    
+    .comment-date {
+        font-size: 0.95rem;
+        color: #888;
+        font-weight: 400;
+    }
+    
+    .comment-content {
+        margin-left: 55px;
+        margin-top: 0.2rem;
+        font-size: 1.08rem;
+        color: #222;
+        word-break: break-word;
+    }
+    
+    @media (max-width: 600px) {
+        .comment-card {
+            padding: 1rem;
+        }
+        .comment-content {
+            margin-left: 0;
+        }
+        .comment-avatar {
+            width: 36px;
+            height: 36px;
+            font-size: 1.1rem;
+        }
+    }
+</style>
 {% endblock %}

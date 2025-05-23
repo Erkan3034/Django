@@ -11,5 +11,21 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title # Bu kod, yazının başlığını döndürür
+    
+    class Meta:
+        ordering = ['-created_date'] # Bu kod, yazıları tarihe göre sıralar
+
+
+class Comment(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name="Makale", related_name="comments")
+    comment_author = models.CharField(max_length=50, verbose_name="İsim")
+    comment_content = models.TextField(max_length=200, verbose_name="Yorum")
+    comment_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.comment_content # Bu kod, yorumun içeriğini döndürür
+    
+    class Meta:
+        ordering = ['-comment_date'] # Bu kod, yorumları tarihe göre sıralar
 
 
