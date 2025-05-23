@@ -8,7 +8,7 @@ from django.conf.urls.static import static
 app_name = "article"
 
 urlpatterns = [
-    path('create/', views.index, name="index"),
+    path('/index', views.index, name="index"),
     path('', views.articles, name="articles"), # Bu kod, makaleler sayfasını temsil eder ve articles fonksiyonunu çağırır
     path('dashboard/', views.dashboard, name="dashboard"), # Bu kod, kontrol paneli sayfasını temsil eder ve dashboard fonksiyonunu çağırır
     path('addarticle/', views.addarticle, name="addarticle"), # Bu kod, makale ekleme sayfasını temsil eder ve addarticle fonksiyonunu çağırır

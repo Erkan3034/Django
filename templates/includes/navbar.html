@@ -2,7 +2,9 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top border-bottom" style="background: linear-gradient(90deg, #e3eafc 0%, #f8f9fa 100%);">
     <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'index' %}">
+            <!-- Bu kod, ana sayfayı temsil eder ve index fonksiyonunu çağırır -->
+
             <span class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
                 <i class="bi bi-code-slash fs-4"></i>
             </span>
@@ -17,10 +19,10 @@
         <!-- Navbar Content -->
         <div class="collapse navbar-collapse" id="navbarContent">
             <!-- Search Form -->
-            <form class="d-flex mx-auto" style="max-width: 400px;">
+            <form action="{% url 'article:articles' %}" method="GET" class="d-flex mx-auto" style="max-width: 400px;">
                 <div class="input-group">
-                    <input class="form-control rounded-start-pill border-end-0" type="search" placeholder="codenthia'da ara..." aria-label="Search">
-                    <button class="btn btn-primary rounded-end-pill border-start-0" type="submit">
+                    <input class="form-control rounded-start-pill border-end-0" type="search" placeholder="codenthia'da ara..." aria-label="Search" name="search">
+                    <button class="btn btn-light rounded-end-pill border-start-0" type="submit">
                         <i class="bi bi-search"></i>
                     </button>
                 </div>
@@ -29,13 +31,13 @@
             <!-- Navigation Links -->
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-lg-2">
                 <li class="nav-item">
-                    <a class="nav-link px-3" href="/articles">Makaleler</a>
+                    <a class="nav-link px-3" href="{% url 'article:articles' %}">Makaleler</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-3" href="/about">Hakkımızda</a>
+                    <a class="nav-link px-3" href="{% url 'about' %}">Hakkımızda</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-3" href="/contact">İletişim</a>
+                    <a class="nav-link px-3" href="{% url 'contact' %}">İletişim</a>
                 </li>
                 <!-- User Menu Dropdown -->
                 <li class="nav-item dropdown">
@@ -46,13 +48,13 @@
                     <ul class="dropdown-menu dropdown-menu-end border-0" style="margin-top: 0.5rem; border-radius: 0.8rem; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);" aria-labelledby="userDropdown">
                         {% if request.user.is_authenticated %}
                         <li>
-                            <a class="dropdown-item py-2 px-3 d-flex align-items-center" href="/profile" style="transition: all 0.2s ease;">
+                            <a class="dropdown-item py-2 px-3 d-flex align-items-center" href="{% url 'user:profile' %}" style="transition: all 0.2s ease;">
                                 <i class="bi bi-person me-2 text-primary"></i>
                                 <span>Profilim</span>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item py-2 px-3 d-flex align-items-center" href="/articles/dashboard" style="transition: all 0.2s ease;">
+                            <a class="dropdown-item py-2 px-3 d-flex align-items-center" href="{% url 'article:dashboard' %}" style="transition: all 0.2s ease;">
                                 <i class="bi bi-speedometer2 me-2 text-primary"></i>
                                 <span>Kontrol Paneli</span>
                             </a>
@@ -61,20 +63,20 @@
                             <hr class="dropdown-divider mx-3 my-2" style="opacity: 0.1;">
                         </li>
                         <li>
-                            <a class="dropdown-item py-2 px-3 d-flex align-items-center text-danger" href="/user/logout" style="transition: all 0.2s ease;">
+                            <a class="dropdown-item py-2 px-3 d-flex align-items-center text-danger" href="{% url 'user:logout' %}" style="transition: all 0.2s ease;">
                                 <i class="bi bi-box-arrow-right me-2"></i>
                                 <span>Çıkış Yap</span>
                             </a>
                         </li>
                         {% else %}
                         <li>
-                            <a class="dropdown-item py-2 px-3 d-flex align-items-center" href="/user/login" style="transition: all 0.2s ease;">
+                            <a class="dropdown-item py-2 px-3 d-flex align-items-center" href="{% url 'user:login' %}" style="transition: all 0.2s ease;">
                                 <i class="bi bi-box-arrow-in-right me-2 text-primary"></i>
                                 <span>Giriş Yap</span>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item py-2 px-3 d-flex align-items-center" href="/user/register" style="transition: all 0.2s ease;">
+                            <a class="dropdown-item py-2 px-3 d-flex align-items-center" href="{% url 'user:register' %}" style="transition: all 0.2s ease;">
                                 <i class="bi bi-person-plus me-2 text-primary"></i>
                                 <span>Kayıt Ol</span>
                             </a>

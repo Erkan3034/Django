@@ -26,14 +26,14 @@
                     <tbody>
                         {% for article in user_articles %}
                         <tr>
-                            <td class="fw-semibold"> <a class="text-decoration-none " href="/articles/detail/{{article.id}}">{{ article.title }}</a>
+                            <td class="fw-semibold"> <a class="text-decoration-none " href="{% url 'article:detail' article.id %}">{{ article.title }}</a>
                             </td>
                             <td>{{ article.created_date|date:"d M Y H:i" }}</td>
                             <td class="text-end">
-                                <a href="/articles/update/{{article.id}}" class="btn btn-sm btn-outline-primary me-1">
+                                <a href="{% url 'article:update' article.id %}" class="btn btn-sm btn-outline-primary me-1">
                                     <i class="bi bi-pencil"></i> Güncelle
                                 </a>
-                                <a href="/articles/delete/{{article.id}}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Silmek istediğinize emin misiniz?');">
+                                <a href="{% url 'article:delete' article.id %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Silmek istediğinize emin misiniz?');">
                                     <i class="bi bi-trash"></i> Sil
                                 </a>
                             </td>
@@ -66,15 +66,15 @@
                     <tbody>
                         {% for article in other_articles %}
                         <tr>
-                            <td class="fw-semibold"> <a class="text-decoration-none " href="/articles/detail/{{article.id}}">{{ article.title }}</a>
+                            <td class="fw-semibold"> <a class="text-decoration-none " href="{% url 'article:detail' article.id %}">{{ article.title }}</a>
                             </td>
                             <td>{{ article.author }}</td>
                             <td>{{ article.created_date|date:"d M Y H:i" }}</td>
                             <td class="text-end">
-                                <a href="/articles/update/{{article.id}}" class="btn btn-sm btn-outline-primary me-1">
+                                <a href="{% url 'article:update' article.id %}" class="btn btn-sm btn-outline-primary me-1">
                                     <i class="bi bi-pencil"></i> Güncelle
                                 </a>
-                                <a href="/articles/delete/{{article.id}}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Silmek istediğinize emin misiniz?');">
+                                <a href="{% url 'article:delete' article.id %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Silmek istediğinize emin misiniz?');">
                                     <i class="bi bi-trash"></i> Sil
                                 </a>
                             </td>

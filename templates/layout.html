@@ -1,5 +1,4 @@
-<!doctype html> 
-{% load static %}
+<!doctype html> {% load static %}
 <html lang="en">
 
 <head>
@@ -115,53 +114,59 @@
         </div>
     </footer>
     <style>
-    .footer {
-        border-top-left-radius: 1.5rem;
-        border-top-right-radius: 1.5rem;
-    }
-    .footer-social {
-        color: #fff;
-        background: rgba(255,255,255,0.08);
-        border-radius: 50%;
-        width: 42px;
-        height: 42px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background 0.2s, color 0.2s, transform 0.2s;
-        font-size: 1.3rem;
-    }
-    .footer-social:hover {
-        background: #fff;
-        color: #4b6c93;
-        transform: translateY(-3px) scale(1.1);
-        text-decoration: none;
-    }
-    .footer-link {
-        color: #fff;
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.2s;
-    }
-    .footer-link:hover {
-        color: #ffd700;
-        text-decoration: underline;
-    }
-    @media (max-width: 767px) {
         .footer {
-            border-radius: 0;
+            border-top-left-radius: 1.5rem;
+            border-top-right-radius: 1.5rem;
         }
-    }
-a.logo-link {
-    color: white !important;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-a.logo-link:hover {
-    color: white !important;
-    text-decoration: none !important;
-}
+        
+        .footer-social {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, color 0.2s, transform 0.2s;
+            font-size: 1.3rem;
+        }
+        
+        .footer-social:hover {
+            background: #fff;
+            color: #4b6c93;
+            transform: translateY(-3px) scale(1.1);
+            text-decoration: none;
+        }
+        
+        .footer-link {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .footer-link:hover {
+            color: #ffd700;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 767px) {
+            .footer {
+                border-radius: 0;
+            }
+        }
+        
+        a.logo-link {
+            color: white !important;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        a.logo-link:hover {
+            color: white !important;
+            text-decoration: none !important;
+        }
     </style>
 
 
@@ -188,6 +193,7 @@ a.logo-link:hover {
 
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
 </body>
 
 </html>

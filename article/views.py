@@ -3,6 +3,7 @@ from .forms import ArticleForm
 from django.contrib import messages
 from .models import Article
 from django.contrib.auth.decorators import login_required # Bu kod, kullanıcının giriş yapmış olup olmadığını kontrol eder(login_required)
+from django.db import models
 # Create your views here.
 
 #================================================================
@@ -36,18 +37,33 @@ def detail(request, id): # Bu kod, makale detay sayfasını temsil eder ve detai
     return render(request, 'detail.html', {'article': article})
 
 #================================================================
-@login_required(login_url="user:login")
-def create(request):
-    return HttpResponse("Yazı Oluştur")
-
-#================================================================
 def articles(request):
-    articles = Article.objects.all().order_by('-created_date')  # En yeniden eskiye sırala
-    featured_article = articles.first()  # İlk makaleyi öne çıkan olarak al
+    search = request.GET.get('search')
+    if search:
+        # Hem başlık hem de içerikte arama yap
+        articles = Article.objects.filter(
+            models.Q(title__icontains=search) | 
+            models.Q(content__icontains=search)
+        ).order_by('-created_date')
+        
+        if not articles.exists():
+            return render(request, 'articles.html', {'articles': [], 'search_query': search, 'featured_article': None})
+        
+        context = {
+            'articles': articles,
+            'search_query': search,  # Arama terimini template'e gönder
+            'featured_article': None  # Arama yapıldığında öne çıkan makaleyi gösterme
+        }
+        return render(request, 'articles.html', context)
+    
+    # Normal sayfa görüntüleme
+    articles = Article.objects.all().order_by('-created_date')
+    featured_article = articles.first()
     
     context = {
         'articles': articles,
-        'featured_article': featured_article
+        'featured_article': featured_article,
+        'search_query': None
     }
     
     return render(request, 'articles.html', context)
