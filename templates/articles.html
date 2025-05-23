@@ -94,6 +94,22 @@
     {% endif %}
 </div>
 
+<div class="card mb-4">
+    <div class="card-header bg-light fw-bold">
+        <i class="bi bi-folder"></i> Kategoriler
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item {% if not request.GET.category %}active{% endif %}">
+            <a href="{% url 'article:articles' %}" class="text-decoration-none {% if not request.GET.category %}text-white{% endif %}">Tümü</a>
+        </li>
+        {% for cat in categories %}
+        <li class="list-group-item {% if request.GET.category == cat.id|stringformat:'s' %}active{% endif %}">
+            <a href="{% url 'article:articles' %}?category={{ cat.id }}" class="text-decoration-none {% if request.GET.category == cat.id|stringformat:'s' %}text-white{% endif %}">{{ cat.name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
 <style>
     .article-card {
         border: none;

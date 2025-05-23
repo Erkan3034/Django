@@ -31,7 +31,7 @@
             <div class="alert alert-info">Henüz toplulukta hiç soru yok. İlk soruyu sen sor!</div>
             {% endif %}
         </div>
-        <!-- Sağ: Yeni Sorular -->
+        <!-- Sağ: Yeni Sorular ve Kategoriler -->
         <div class="col-lg-4">
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-primary text-white">
@@ -42,6 +42,21 @@
                     <li class="list-group-item py-2">
                         <a href="{% url 'article:soru_detay' q.id %}" class="text-decoration-none">{{ q.title|truncatechars:40 }}</a>
                         <div class="text-muted small">{{ q.user.get_full_name|default:q.user.username }} • {{ q.created_date|date:"d M Y H:i" }}</div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light fw-bold">
+                    <i class="bi bi-folder"></i> Kategoriler
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item {% if not request.GET.category %}active{% endif %}">
+                        <a href="{% url 'article:sosyal' %}" class="text-decoration-none {% if not request.GET.category %}text-white{% endif %}">Tümü</a>
+                    </li>
+                    {% for cat in categories %}
+                    <li class="list-group-item {% if request.GET.category == cat.id|stringformat:'s' %}active{% endif %}">
+                        <a href="{% url 'article:sosyal' %}?category={{ cat.id }}" class="text-decoration-none {% if request.GET.category == cat.id|stringformat:'s' %}text-white{% endif %}">{{ cat.name }}</a>
                     </li>
                     {% endfor %}
                 </ul>

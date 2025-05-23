@@ -28,6 +28,14 @@
                             <label for="id_image" class="form-label">Görsel</label> {{ form.image.errors }} {{ form.image }}
                         </div>
 
+                        <div class="mb-3">
+                            <label for="id_category" class="form-label">Kategori</label> {{ form.category.errors }} {{ form.category }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_tags" class="form-label">Etiketler</label> {{ form.tags.errors }} {{ form.tags }}
+                        </div>
+
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-save me-2"></i>Blog Yazısını Kaydet

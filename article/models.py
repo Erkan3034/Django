@@ -10,6 +10,8 @@ class Article(models.Model):
     content = RichTextField(verbose_name="İçerik") # Bu alan, yazının içeriğini temsil eder ve metin içerikleri için kullanılır
     created_date = models.DateTimeField(auto_now_add=True , verbose_name="Oluşturulma Tarihi") # Bu alan, yazının oluşturulma tarihini otomatik olarak ekler
     image = models.ImageField(upload_to='article_images/', null=True, blank=True)  # <-- yeni alan
+    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, blank=True, related_name="articles", verbose_name="Kategori")
+    tags = models.ManyToManyField('Tag', blank=True, related_name="articles", verbose_name="Etiketler")
 
     def __str__(self):
         return self.title # Bu kod, yazının başlığını döndürür
@@ -40,6 +42,8 @@ class CommunityQuestion(models.Model):
     content = models.TextField(verbose_name="Soru İçeriği")
     image = models.ImageField(upload_to='community_images/', null=True, blank=True, verbose_name="Görsel")
     created_date = models.DateTimeField(auto_now_add=True)
+    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, blank=True, related_name="community_questions", verbose_name="Kategori")
+    tags = models.ManyToManyField('Tag', blank=True, related_name="community_questions", verbose_name="Etiketler")
 
     def __str__(self):
         return self.title
@@ -56,5 +60,23 @@ class CommunityAnswer(models.Model):
         return f"Yanıt: {self.content[:30]}..."
     class Meta:
         ordering = ['created_date']
+
+class Category(models.Model):
+    name = models.CharField(max_length=50, unique=True, verbose_name="Kategori Adı")
+    def __str__(self):
+        return self.name
+    class Meta:
+        verbose_name = "Kategori"
+        verbose_name_plural = "Kategoriler"
+        ordering = ['name']
+
+class Tag(models.Model):
+    name = models.CharField(max_length=30, unique=True, verbose_name="Etiket")
+    def __str__(self):
+        return self.name
+    class Meta:
+        verbose_name = "Etiket"
+        verbose_name_plural = "Etiketler"
+        ordering = ['name']
 
 

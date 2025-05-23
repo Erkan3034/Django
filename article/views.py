@@ -1,30 +1,25 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404 ,reverse
 from .forms import ArticleForm, CommentForm, CommunityQuestionForm, CommunityAnswerForm
 from django.contrib import messages
-from .models import Article, Comment, CommunityQuestion, CommunityAnswer # Bu kod, Article ve Comment modellerini import eder
+from .models import Article, Comment, CommunityQuestion, CommunityAnswer, Category, Tag # Bu kod, Article ve Comment modellerini import eder
 from django.contrib.auth.decorators import login_required # Bu kod, kullanıcının giriş yapmış olup olmadığını kontrol eder(login_required)
 from django.db import models
 # Create your views here.
 
 #================================================================
 def index(request):
-    articles = Article.objects.all().order_by('-created_date')[:2]  # Sadece 2 makale
-    categories = [
-        {"name": "Python", "url": "/category/python"},
-        {"name": "Django", "url": "/category/django"},
-        {"name": "Web", "url": "/category/web"},
-    ]
-    popular_tags = [
-        {"name": "backend", "url": "/tag/backend"},
-        {"name": "frontend", "url": "/tag/frontend"},
-        {"name": "ai", "url": "/tag/ai"},
-    ]
+    articles = Article.objects.all().order_by('-created_date')[:2]
+    all_categories = list(Category.objects.all())
+    main_categories = all_categories[:3]
+    other_categories = all_categories[3:]
+    popular_tags = Tag.objects.all()[:6]  # En popüler 6 etiketi göstermek için (isteğe göre değiştirilebilir)
     context = {
         "articles": articles,
-        "categories": categories,
+        "main_categories": main_categories,
+        "other_categories": other_categories,
         "popular_tags": popular_tags,
     }
-    return render(request, 'index.html', context) #return HttpResponse() # Bu kod, ana sayfayı temsil eder
+    return render(request, 'index.html', context)
 
 #================================================================
 def about(request):
@@ -57,33 +52,34 @@ def detail(request, id):
 #================================================================
 def articles(request):
     search = request.GET.get('search')
+    category_id = request.GET.get('category')
+    tag_name = request.GET.get('tag')
+    articles = Article.objects.all().order_by('-created_date')
+    if category_id:
+        articles = articles.filter(category_id=category_id)
+    if tag_name:
+        articles = articles.filter(tags__name=tag_name)
     if search:
-        # Hem başlık hem de içerikte arama yap
-        articles = Article.objects.filter(
+        articles = articles.filter(
             models.Q(title__icontains=search) | 
             models.Q(content__icontains=search)
         ).order_by('-created_date')
-        
         if not articles.exists():
-            return render(request, 'articles.html', {'articles': [], 'search_query': search, 'featured_article': None})
-        
+            return render(request, 'articles.html', {'articles': [], 'search_query': search, 'featured_article': None, 'categories': Category.objects.all()})
         context = {
             'articles': articles,
-            'search_query': search,  # Arama terimini template'e gönder
-            'featured_article': None  # Arama yapıldığında öne çıkan makaleyi gösterme
+            'search_query': search,
+            'featured_article': None,
+            'categories': Category.objects.all(),
         }
         return render(request, 'articles.html', context)
-    
-    # Normal sayfa görüntüleme
-    articles = Article.objects.all().order_by('-created_date')
     featured_article = articles.first()
-    
     context = {
         'articles': articles,
         'featured_article': featured_article,
-        'search_query': None
+        'search_query': None,
+        'categories': Category.objects.all(),
     }
-    
     return render(request, 'articles.html', context)
     
 
@@ -91,12 +87,22 @@ def articles(request):
 @login_required(login_url="user:login") #Eğer kullanıcı giriş yapmadan bu sayfaya ulaşırsa login sayfasına yönlendir
 def addarticle(request):
     form = ArticleForm(request.POST or None, request.FILES or None)
-    if form.is_valid(): # Bu kod, formun geçerli olup olmadığını kontrol eder
-        article = form.save(commit=False) # Bu kod, formu kaydetmeden önce makaleyi oluşturur
+    if form.is_valid():
+        article = form.save(commit=False)
         article.author = request.user
-        article.save() #Makaleyi kaydet
+        article.save()
+        # Etiketleri işle
+        tags_str = form.cleaned_data.get('tags', '')
+        if tags_str:
+            tag_names = [t.strip() for t in tags_str.split(',') if t.strip()]
+            tag_objs = []
+            for name in tag_names:
+                tag, created = Tag.objects.get_or_create(name=name)
+                tag_objs.append(tag)
+            article.tags.set(tag_objs)
+        form.save_m2m()
         messages.success(request, "Makale başarıyla oluşturuldu")
-        return redirect("article:dashboard") #Makaleyi kaydettikten sonra kontrol paneline yönlendir
+        return redirect("article:dashboard")
     return render(request, 'addarticle.html', {'form': form})
 
 #================================================================
@@ -187,8 +193,12 @@ def addcomment(request, id):
 
 #================================================================
 def sosyal(request):
+    category_id = request.GET.get('category')
     questions = CommunityQuestion.objects.all()
-    return render(request, 'sosyal.html', {'questions': questions})
+    if category_id:
+        questions = questions.filter(category_id=category_id)
+    categories = Category.objects.all()
+    return render(request, 'sosyal.html', {'questions': questions, 'categories': categories})
 
 @login_required(login_url="user:login")
 def soru_ekle(request):
@@ -197,7 +207,17 @@ def soru_ekle(request):
         if form.is_valid():
             question = form.save(commit=False)
             question.user = request.user
-            question.save() 
+            question.save()
+            # Etiketleri işle
+            tags_str = form.cleaned_data.get('tags', '')
+            if tags_str:
+                tag_names = [t.strip() for t in tags_str.split(',') if t.strip()]
+                tag_objs = []
+                for name in tag_names:
+                    tag, created = Tag.objects.get_or_create(name=name)
+                    tag_objs.append(tag)
+                question.tags.set(tag_objs)
+            form.save_m2m()
             messages.success(request, "Sorunuz topluluğa eklendi!")
             return redirect('article:sosyal')
     else:

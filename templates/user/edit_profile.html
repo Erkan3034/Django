@@ -1,0 +1,46 @@
+{% extends "layout.html" %} {% load static %} {% block title %}Profili Düzenle | Codenthia{% endblock %} {% block body %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h3 class="mb-4 text-center">Profili Düzenle</h3>
+                    <form method="post" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        <div class="mb-3 text-center">
+                            {% if request.user.profile.image %}
+                            <img src="{{ request.user.profile.image.url }}" class="rounded-circle mb-2" style="width: 100px; height: 100px; object-fit: cover;"> {% else %}
+                            <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center mb-2" style="width: 100px; height: 100px;">
+                                <i class="bi bi-person-fill text-white" style="font-size: 2.5rem;"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_first_name" class="form-label">Ad</label> {{ form.first_name }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_last_name" class="form-label">Soyad</label> {{ form.last_name }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">E-posta</label> {{ form.email }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_github" class="form-label">Github</label> {{ form.github }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_bio" class="form-label">Biyografi</label> {{ form.bio }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_image" class="form-label">Profil Fotoğrafı</label> {{ form.image }}
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                            <a href="{% url 'user:profile' %}" class="btn btn-outline-secondary">İptal</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
