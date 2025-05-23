@@ -1,0 +1,29 @@
+{% extends "layout.html" %} {% block body %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h2 class="mb-4"><i class="bi bi-question-circle"></i> Topluluğa Soru Sor</h2>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ form.title.label_tag }} {{ form.title }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.content.label_tag }} {{ form.content }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.image.label_tag }} {{ form.image }}
+                        </div>
+                        <button type="submit" class="btn btn-success px-4">
+                            <i class="bi bi-send"></i> Soruyu Gönder
+                        </button>
+                        <a href="{% url 'article:sosyal' %}" class="btn btn-outline-secondary ms-2">İptal</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

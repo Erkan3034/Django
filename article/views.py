@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404 ,reverse
-from .forms import ArticleForm, CommentForm
+from .forms import ArticleForm, CommentForm, CommunityQuestionForm, CommunityAnswerForm
 from django.contrib import messages
-from .models import Article, Comment # Bu kod, Article ve Comment modellerini import eder
+from .models import Article, Comment, CommunityQuestion, CommunityAnswer # Bu kod, Article ve Comment modellerini import eder
 from django.contrib.auth.decorators import login_required # Bu kod, kullanıcının giriş yapmış olup olmadığını kontrol eder(login_required)
 from django.db import models
 # Create your views here.
@@ -124,13 +124,19 @@ def updateArticle(request, id):
 #Kontrol paneli sayfası
 @login_required(login_url="user:login")
 def dashboard(request):
-    user_articles = Article.objects.filter(author=request.user).order_by('-created_date') # Bu kod, kullanıcının yazdığı makaleleri oluşturma tarihine göre sıralar
+    user_articles = Article.objects.filter(author=request.user).order_by('-created_date')
     other_articles = Article.objects.none()
-    if request.user.is_superuser or request.user.is_staff: # Bu kod, kullanıcının admin olup olmadığını kontrol eder
-        other_articles = Article.objects.exclude(author=request.user).order_by('-created_date') # Bu kod, kullanıcının yazdığı makaleleri oluşturma tarihine göre sıralar
-    return render(request, 'dashboard.html', { # Bu kod, kontrol paneline yönlendirir
+    if request.user.is_superuser or request.user.is_staff:
+        other_articles = Article.objects.exclude(author=request.user).order_by('-created_date')
+    # Topluluk soruları
+    if request.user.is_superuser or request.user.is_staff:
+        user_questions = CommunityQuestion.objects.all().order_by('-created_date')
+    else:
+        user_questions = CommunityQuestion.objects.filter(user=request.user).order_by('-created_date')
+    return render(request, 'dashboard.html', {
         'user_articles': user_articles,
-        'other_articles': other_articles
+        'other_articles': other_articles,
+        'user_questions': user_questions,
     })
 
 #================================================================
@@ -158,13 +164,69 @@ def privacy(request):
 
 #================================================================
 def addcomment(request, id):
-    article = get_object_or_404(Article, id=id) # makaleyi al
-    if request.method == "POST": # POST isteği varsa
-        comment_form = CommentForm(request.POST) # yorum formunu al
-        if comment_form.is_valid(): # form geçerliyse
-            comment = comment_form.save(commit=False) # yorumu oluştur
+    article = get_object_or_404(Article, id=id)
+    if request.method == "POST":
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
             comment.article = article
+            if request.user.is_authenticated:
+                comment.comment_author = request.user.get_full_name() or request.user.username
+            parent_id = comment_form.cleaned_data.get('parent')
+            reply_to = comment_form.cleaned_data.get('reply_to')
+            if parent_id not in [None, '', 0, '0']:
+                try:
+                    parent_comment = Comment.objects.get(id=int(parent_id))
+                    comment.parent = parent_comment
+                    comment.reply_to = reply_to or parent_comment.comment_author
+                except (Comment.DoesNotExist, ValueError, TypeError):
+                    pass
             comment.save()
             messages.success(request, "Yorumunuz başarıyla eklendi.")
-            
-    return redirect(reverse("article:detail", kwargs={"id": id})) #reverse fonksiyonu, URL'i ters çevirir
+    return redirect("article:detail", id=id)
+
+#================================================================
+def sosyal(request):
+    questions = CommunityQuestion.objects.all()
+    return render(request, 'sosyal.html', {'questions': questions})
+
+@login_required(login_url="user:login")
+def soru_ekle(request):
+    if request.method == "POST":
+        form = CommunityQuestionForm(request.POST, request.FILES)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.user = request.user
+            question.save() 
+            messages.success(request, "Sorunuz topluluğa eklendi!")
+            return redirect('article:sosyal')
+    else:
+        form = CommunityQuestionForm()
+    return render(request, 'soru_ekle.html', {'form': form})
+
+def soru_detay(request, id):
+    question = get_object_or_404(CommunityQuestion, id=id)
+    answers = question.answers.all()
+    if request.method == "POST":
+        answer_form = CommunityAnswerForm(request.POST)
+        if answer_form.is_valid():
+            answer = answer_form.save(commit=False)
+            answer.user = request.user
+            answer.question = question
+            answer.save()
+            messages.success(request, "Yanıtınız eklendi!")
+            return redirect('article:soru_detay', id=id)
+    else:
+        answer_form = CommunityAnswerForm()
+    return render(request, 'soru_detay.html', {'question': question, 'answers': answers, 'answer_form': answer_form})
+
+@login_required(login_url="user:login")
+def soru_sil(request, id):
+    question = get_object_or_404(CommunityQuestion, id=id)
+    if request.user == question.user or request.user.is_superuser or request.user.is_staff:
+        question.delete()
+        messages.success(request, "Soru başarıyla silindi.")
+    else:
+        messages.error(request, "Bu soruyu silme yetkiniz yok.")
+    return redirect('article:dashboard')
+

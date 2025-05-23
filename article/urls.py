@@ -16,4 +16,9 @@ urlpatterns = [
     path('delete/<int:id>/', views.deleteArticle, name="delete"), # Bu kod, makale silme sayfasını temsil eder ve delete fonksiyonunu çağırır
     path('update/<int:id>/', views.updateArticle, name="update"), # Bu kod, makale güncelleme sayfasını temsil eder ve update fonksiyonunu çağırır
     path('comment/<int:id>', views.addcomment, name="comment"), # Bu kod, yorum ekleme sayfasını temsil eder ve addcomment fonksiyonunu çağırır
+    # --- Sosyal (Topluluk) ---
+    path('sosyal/', views.sosyal, name="sosyal"),
+    path('sosyal/soru-ekle/', views.soru_ekle, name="soru_ekle"),
+    path('sosyal/soru/<int:id>/', views.soru_detay, name="soru_detay"),
+    path('sosyal/soru-sil/<int:id>/', views.soru_sil, name="soru_sil"),
 ]

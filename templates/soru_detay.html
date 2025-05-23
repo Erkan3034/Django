@@ -1,0 +1,72 @@
+{% extends "layout.html" %} {% block body %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg mb-4">
+                <div class="card-body">
+                    <h3 class="mb-2">{{ question.title }}</h3>
+                    <div class="mb-2 text-muted small">
+                        <i class="bi bi-person"></i> {{ question.user.get_full_name|default:question.user.username }}
+                        <span class="ms-2"><i class="bi bi-clock"></i> {{ question.created_date|date:"d M Y H:i" }}</span>
+                    </div>
+                    {% if question.image %}
+                    <div class="mb-3 text-center">
+                        <img src="{{ question.image.url }}" alt="Soru Görseli" class="img-fluid rounded shadow-sm" style="max-height:350px; object-fit:contain;">
+                    </div>
+                    {% endif %}
+                    <div class="mb-3" style="font-size:1.1rem;">{{ question.content|linebreaks }}</div>
+                </div>
+            </div>
+            <!-- Yanıtlar -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="mb-3"><i class="bi bi-chat-dots"></i> Yanıtlar ({{ answers.count }})</h5>
+                    {% if answers %} {% for answer in answers %}
+                    <div class="mb-3 p-3 rounded bg-light">
+                        <div class="d-flex align-items-center mb-1">
+                            <div class="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width:32px; height:32px; font-size:1rem;">
+                                <i class="bi bi-person"></i>
+                            </div>
+                            <div>
+                                <strong>{{ answer.user.get_full_name|default:answer.user.username }}</strong>
+                                <span class="text-muted small ms-2"><i class="bi bi-clock"></i> {{ answer.created_date|date:"d M Y H:i" }}</span>
+                            </div>
+                        </div>
+                        <div class="mt-2" style="font-size:1.05rem;">{{ answer.content|linebreaks }}</div>
+                    </div>
+                    {% endfor %} {% else %}
+                    <div class="alert alert-info">Henüz yanıt yok. İlk yanıtı sen ver!</div>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- Yanıt Ekleme Formu -->
+            {% if user.is_authenticated %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="mb-3"><i class="bi bi-reply"></i> Yanıtla</h5>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ answer_form.content.label_tag }} {{ answer_form.content }}
+                        </div>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-send"></i> Yanıtı Gönder
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <div class="alert alert-warning">Yanıt vermek için <a href="{% url 'user:login' %}">giriş yapmalısınız</a>.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<style>
+    .avatar {
+        min-width: 32px;
+        min-height: 32px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    }
+</style>
+{% endblock %}

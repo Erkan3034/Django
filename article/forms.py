@@ -1,5 +1,5 @@
 from django import forms
-from .models import Article, Comment
+from .models import Article, Comment, CommunityQuestion, CommunityAnswer
 from ckeditor.widgets import CKEditorWidget
 
 class ArticleForm(forms.ModelForm):
@@ -17,15 +17,41 @@ class ArticleForm(forms.ModelForm):
         }
 
 class CommentForm(forms.ModelForm):
+    parent = forms.IntegerField(widget=forms.HiddenInput(), required=False)
+    reply_to = forms.CharField(widget=forms.HiddenInput(), required=False)
     class Meta:
         model = Comment
-        fields = ['comment_author', 'comment_content']
+        fields = ['comment_content']
         labels = {
-            'comment_author': 'İsim',
             'comment_content': 'Yorum',
         }
         widgets = {
-            'comment_author': forms.TextInput(attrs={'class': 'form-control'}),
             'comment_content': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }
+
+class CommunityQuestionForm(forms.ModelForm):
+    class Meta:
+        model = CommunityQuestion
+        fields = ['title', 'content', 'image']
+        labels = {
+            'title': 'Soru Başlığı',
+            'content': 'Soru İçeriği',
+            'image': 'Görsel',
+        }
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Kısa ve açıklayıcı bir başlık...'}),
+            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Sorununuzu detaylıca açıklayın...'}),
+            'image': forms.FileInput(attrs={'class': 'form-control'}),
+        }
+
+class CommunityAnswerForm(forms.ModelForm):
+    class Meta:
+        model = CommunityAnswer
+        fields = ['content']
+        labels = {
+            'content': 'Yanıtınız',
+        }
+        widgets = {
+            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Yanıtınızı yazın...'}),
         }
 

@@ -1,6 +1,6 @@
 {% extends "layout.html" %} {% block body %} {% load static %}
 <div class="container my-5">
-    <h1 class="mb-4 text-center text-dark font-weight-bold ">Makaleler</h1>
+    <h1 class="mb-4 text-center text-dark font-weight-bold ">Blog Yazıları</h1>
     <hr class="mb-4 text-primary border-4 ">
 
     <!-- Search Bar -->
@@ -8,7 +8,7 @@
         <form method="GET" action="{% url 'article:articles' %}" class="search-form">
             {% csrf_token %}
             <div class="input-group">
-                <input type="text" name="search" class="form-control search-input" placeholder="Makalelerde ara..." value="{{ search_query|default:'' }}" autocomplete="off">
+                <input type="text" name="search" class="form-control search-input" placeholder="Blog'da ara..." value="{{ search_query|default:'' }}" autocomplete="off">
                 <button class="btn btn-light search-btn" type="submit">
                     <i class="bi bi-search"></i> Ara
                 </button>
@@ -38,7 +38,7 @@
     <!-- En güncel makale (öne çıkan) -->
 
     {% if featured_article %}
-    <h2 class="mb-4 text-primary" style="font-weight:700; letter-spacing:1px; text-align:left;">Yeni Makaleler</h2>
+    <h2 class="mb-4 text-primary" style="font-weight:700; letter-spacing:1px; text-align:left;">Yeni Blog Yazıları</h2>
     <div class="mb-5">
         <div class="col-12 col-md-10 col-lg-8  me-auto">
             <div class="featured-article-card position-relative overflow-hidden shadow-lg rounded-4">
@@ -46,7 +46,7 @@
                 <img src="{{ featured_article.image.url }}" class="featured-article-img" alt="{{ featured_article.title }}"> {% else %}
                 <img src="{% static 'codenthiaRevize.png' %}" class="featured-article-img" alt="{{ featured_article.title }}"> {% endif %}
                 <div class="featured-article-overlay d-flex flex-column justify-content-end align-items-start text-start">
-                    <span class="badge bg-danger mb-2">MAKALE</span>
+                    <span class="badge bg-danger mb-2">BLOG YAZISI</span>
                     <h2 class="featured-article-title mb-2"> <a class="text-decoration-none text-light" href="{% url 'article:detail' featured_article.id %}">{{ featured_article.title }}</a></h2>
                     <div class="featured-article-desc mb-3">{{ featured_article.content|safe|truncatewords:15 }}</div>
                     <div class="d-flex justify-content-between align-items-center text-white-50 w-100" style="font-size:1rem;">
@@ -59,7 +59,7 @@
     </div>
     {% endif %}
 
-    <h3 class="mb-4">En güncel makaleler</h3>
+    <h3 class="mb-4">En güncel blog yazıları</h3>
     {% if articles %}
     <!-- articles değişkeni dolu mu? -->
     <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -90,7 +90,7 @@
         {% endfor %}
     </div>
     {% else %}
-    <div class="alert alert-danger text-center fw-bold">Makale bulunamadı...</div>
+    <div class="alert alert-danger text-center fw-bold">Blog yazısı bulunamadı...</div>
     {% endif %}
 </div>
 

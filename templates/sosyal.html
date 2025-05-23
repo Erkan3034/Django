@@ -1,0 +1,60 @@
+{% extends "layout.html" %} {% block body %}
+<div class="container my-5">
+    <div class="row">
+        <!-- Sol: Soru Listesi -->
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">Topluluk Soruları</h2>
+                <a href="{% url 'article:soru_ekle' %}" class="btn btn-success">
+                    <i class="bi bi-question-circle"></i> Topluluğa Soru Sor
+                </a>
+            </div>
+            {% if questions %}
+            <div class="list-group list-group-flush">
+                {% for q in questions %}
+                <a href="{% url 'article:soru_detay' q.id %}" class="list-group-item list-group-item-action mb-3 shadow-sm rounded">
+                    <div class="d-flex align-items-center mb-1">
+                        <div class="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width:38px; height:38px; font-size:1.2rem;">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div>
+                            <strong>{{ q.user.get_full_name|default:q.user.username }}</strong>
+                            <span class="text-muted small ms-2"><i class="bi bi-clock"></i> {{ q.created_date|date:"d M Y H:i" }}</span>
+                        </div>
+                    </div>
+                    <div class="fw-bold">{{ q.title }}</div>
+                    <div class="text-muted small mt-1">{{ q.content|truncatechars:120 }}</div>
+                </a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="alert alert-info">Henüz toplulukta hiç soru yok. İlk soruyu sen sor!</div>
+            {% endif %}
+        </div>
+        <!-- Sağ: Yeni Sorular -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <i class="bi bi-lightbulb"></i> Yeni Sorular
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for q in questions|slice:":7" %}
+                    <li class="list-group-item py-2">
+                        <a href="{% url 'article:soru_detay' q.id %}" class="text-decoration-none">{{ q.title|truncatechars:40 }}</a>
+                        <div class="text-muted small">{{ q.user.get_full_name|default:q.user.username }} • {{ q.created_date|date:"d M Y H:i" }}</div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .avatar {
+        min-width: 38px;
+        min-height: 38px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    }
+</style>
+{% endblock %}

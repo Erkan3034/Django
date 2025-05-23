@@ -3,8 +3,11 @@
 <div class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3 class="mb-0"><i class="bi bi-speedometer2 me-2"></i>Kontrol Paneli</h3>
-        <a class="btn btn-primary" href="{% url 'article:addarticle' %}">
-            <i class="bi bi-plus-circle me-1"></i>Makale Ekle
+        <a href="{% url 'article:addarticle' %}" class="btn btn-primary me-2">
+            <i class="bi bi-plus-lg"></i> Blog Yazısı Ekle
+        </a>
+        <a href="{% url 'article:soru_ekle' %}" class="btn btn-success">
+            <i class="bi bi-question-circle"></i> Topluluğa Soru Sor
         </a>
     </div>
     <div class="card shadow-sm">
@@ -12,7 +15,7 @@
             <p class="mb-3">
                 Hoşgeldiniz, <span class="fw-bold text-primary">{{ request.user.username }}</span>
             </p>
-            <h5 class="mb-3 text-success">Kendi Makaleleriniz</h5>
+            <h5 class="mb-3 text-success">Kendi Blog Yazılarınız</h5>
             <div class="table-responsive mb-4">
                 {% if user_articles %}
                 <table class="table table-hover align-middle">
@@ -43,14 +46,14 @@
                 </table>
                 {% else %}
                 <div class="alert alert-danger text-center" role="alert">
-                    Henüz makaleniz yok.
+                    Henüz blog yazınız yok.
                 </div>
                 {% endif %}
             </div>
 
             {% if request.user.is_superuser or request.user.is_staff %}
             <hr class="my-4 border-primary border-1">
-            <h5 class="mb-3 text-dark text-shadow text-center mt-5">Diğer Kullanıcıların Makaleleri</h5>
+            <h5 class="mb-3 text-dark text-shadow text-center mt-5">Diğer Kullanıcıların Blog Yazıları</h5>
             <hr class="my-4 border-primary border-1 w-25  mx-auto">
             <div class="table-responsive">
                 {% if other_articles %}
@@ -84,11 +87,54 @@
                 </table>
                 {% else %}
                 <div class="alert alert-info text-center" role="alert">
-                    Diğer kullanıcıların makalesi yok.
+                    Diğer kullanıcıların blog yazıları yok.
                 </div>
                 {% endif %}
             </div>
             {% endif %}
+
+            <h5 class="mb-3 text-info">Toplulukta Sorduğunuz Sorular</h5>
+            <div class="table-responsive mb-4">
+                {% if user_questions %}
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Başlık</th>
+                            <th>Tarih</th>
+                            <th>Görsel</th>
+                            <th class="text-end">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for q in user_questions %}
+                        <tr>
+                            <td class="fw-semibold">
+                                <a class="text-decoration-none" href="{% url 'article:soru_detay' q.id %}">{{ q.title }}</a>
+                            </td>
+                            <td>{{ q.created_date|date:"d M Y H:i" }}</td>
+                            <td>
+                                {% if q.image %}
+                                <img src="{{ q.image.url }}" alt="Görsel" style="height:40px; max-width:60px; border-radius:6px;"> {% else %}
+                                <span class="text-muted">-</span> {% endif %}
+                            </td>
+                            <td class="text-end">
+                                <a href="{% url 'article:soru_detay' q.id %}" class="btn btn-sm btn-outline-info me-1">
+                                    <i class="bi bi-eye"></i> Gör
+                                </a>
+                                <a href="{% url 'article:soru_sil' q.id %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Soruyu silmek istediğinize emin misiniz?');">
+                                    <i class="bi bi-trash"></i> Sil
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="alert alert-warning text-center" role="alert">
+                    Henüz toplulukta hiç sorunuz yok.
+                </div>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>

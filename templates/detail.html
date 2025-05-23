@@ -3,7 +3,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8">
             <a href="{% url 'article:articles' %}" class="btn btn-outline-secondary mb-3">
-                <i class="bi bi-arrow-left"></i> Tüm Makalelere Dön
+                <i class="bi bi-arrow-left"></i> Tüm Blog Yazılarına Dön
             </a>
             <div class="card shadow-lg">
                 {% if article.image %}
@@ -33,13 +33,10 @@
                     <!-- Yorum Formu -->
                     <form method="post" class="mb-4" action="{% url 'article:comment' article.id %}">
                         {% csrf_token %}
-                        <div class="mb-3">
-                            {{ comment_form.comment_author.label_tag }} {{ comment_form.comment_author }}
-                            <!-- Bu kod, yorum yapan kişinin adını alır -->
-                        </div>
+                        <input type="hidden" name="parent" id="parent_id" value="">
+                        <input type="hidden" name="reply_to" id="reply_to" value="">
                         <div class="mb-3">
                             {{ comment_form.comment_content.label_tag }} {{ comment_form.comment_content }}
-                            <!-- Bu kod, yorumun içeriğini alır -->
                         </div>
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-send"></i> Yorum Yap
@@ -47,31 +44,57 @@
                     </form>
 
                     <!-- Mevcut Yorumlar -->
-                    {% if comments %} {% for comment in comments %}
+                    {% if comments %} {% for comment in comments %} {% if not comment.parent %}
                     <div class="comment-card mb-4">
                         <div class="d-flex align-items-center mb-2">
                             <div class="comment-avatar me-3">
                                 <span>
-                                    {% if comment.comment_author %}
-                                        {{ comment.comment_author|first|upper }} <!-- Bu kod, yorum yapan kişinin adının ilk harfini alır -->
-                                    {% else %}
-                                        <i class="bi bi-person"></i>
-                                    {% endif %}
-                                </span>
+                                            {% if comment.comment_author %}
+                                                {{ comment.comment_author|first|upper }}
+                                            {% else %}
+                                                <i class="bi bi-person"></i>
+                                            {% endif %}
+                                        </span>
                             </div>
                             <div class="flex-grow-1">
                                 <span class="comment-author">{{ comment.comment_author }}</span>
                                 <span class="comment-date ms-2">
-                                    <i class="bi bi-clock"></i> {{ comment.comment_date|date:"d M Y H:i" }}
-                                </span>
+                                            <i class="bi bi-clock"></i> {{ comment.comment_date|date:"d M Y H:i" }}
+                                        </span>
+                                <button type="button" class="btn btn-link btn-sm text-primary p-0 ms-2" onclick="setReply('{{ comment.id }}', '{{ comment.comment_author|escapejs }}')">Yanıtla</button>
                             </div>
                         </div>
                         <div class="comment-content">
                             {{ comment.comment_content|linebreaks }}
                         </div>
+                        <!-- Yanıtlar -->
+                        {% for reply in comment.replies.all %}
+                        <div class="comment-card mt-3 ms-5" style="background:#f8f9fa;">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="comment-avatar me-3">
+                                    <span>
+                                                {% if reply.comment_author %}
+                                                    {{ reply.comment_author|first|upper }}
+                                                {% else %}
+                                                    <i class="bi bi-person"></i>
+                                                {% endif %}
+                                            </span>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <span class="comment-author">{{ reply.comment_author }}</span>
+                                    <span class="comment-date ms-2">
+                                                <i class="bi bi-clock"></i> {{ reply.comment_date|date:"d M Y H:i" }}
+                                            </span>
+                                    <span class="badge bg-light text-dark ms-2">@{{ reply.reply_to }}</span>
+                                </div>
+                            </div>
+                            <div class="comment-content">
+                                {{ reply.comment_content|linebreaks }}
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %} {% else %}
-                    <!-- Bu kod, yorum yapılmamışsa yorum yapılması için bir mesaj gösterir -->
+                    {% endif %} {% endfor %} {% else %}
                     <div class="text-center py-4">
                         <i class="bi bi-chat-square-text display-4 text-muted mb-3"></i>
                         <p class="text-muted mb-0">Henüz yorum yapılmamış. İlk yorumu siz yapın!</p>
@@ -161,4 +184,12 @@
         }
     }
 </style>
+
+<script>
+    function setReply(parentId, replyTo) {
+        document.getElementById('parent_id').value = parentId;
+        document.getElementById('reply_to').value = replyTo;
+        document.getElementById('id_comment_content').focus();
+    }
+</script>
 {% endblock %}

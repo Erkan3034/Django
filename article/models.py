@@ -1,5 +1,7 @@
 from django.db import models
 from ckeditor.fields import RichTextField
+from django.contrib.auth import get_user_model
+
 # Create your models here.
 
 class Article(models.Model):
@@ -21,11 +23,38 @@ class Comment(models.Model):
     comment_author = models.CharField(max_length=50, verbose_name="İsim")
     comment_content = models.TextField(max_length=200, verbose_name="Yorum")
     comment_date = models.DateTimeField(auto_now_add=True)
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies', verbose_name="Yanıtlanan Yorum")
+    reply_to = models.CharField(max_length=50, null=True, blank=True, verbose_name="Yanıtlanan Kullanıcı")
 
     def __str__(self):
         return self.comment_content # Bu kod, yorumun içeriğini döndürür
     
     class Meta:
         ordering = ['-comment_date'] # Bu kod, yorumları tarihe göre sıralar
+        
+#================================================================
+
+class CommunityQuestion(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name="Soran Kullanıcı", related_name="community_questions")
+    title = models.CharField(max_length=200, verbose_name="Soru Başlığı")
+    content = models.TextField(verbose_name="Soru İçeriği")
+    image = models.ImageField(upload_to='community_images/', null=True, blank=True, verbose_name="Görsel")
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+    class Meta:
+        ordering = ['-created_date']
+
+class CommunityAnswer(models.Model):
+    question = models.ForeignKey(CommunityQuestion, on_delete=models.CASCADE, related_name="answers", verbose_name="Soru")
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name="Yanıtlayan Kullanıcı", related_name="community_answers")
+    content = models.TextField(verbose_name="Yanıt")
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Yanıt: {self.content[:30]}..."
+    class Meta:
+        ordering = ['created_date']
 
 

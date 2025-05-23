@@ -35,6 +35,8 @@ urlpatterns = [
 
     path('profile/', views.profile, name ="profile"), # Bu kod, profil sayfasını temsil eder ve profil fonksiyonunu çağırır
     path('privacy-policy/', views.privacy, name ="privacy"), # Bu kod, privacy sayfasını temsil eder ve search fonksiyonunu çağırır
+
+    path('sosyal/', views.sosyal, name ="sosyal"), # Bu kod, sosyal sayfasını temsil eder ve sosyal fonksiyonunu çağırır
 ]
 
 if settings.DEBUG:
