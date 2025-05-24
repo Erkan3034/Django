@@ -10,7 +10,7 @@ import json
 
 API_URL = "https://router.huggingface.co/together/v1/chat/completions"
 HEADERS = {
-    "Authorization": "Bearer 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"
+    "Authorization": "Bearer hf_nTqWkgkzdMQTyhgroCyRhNOFhRHcqHzb"
 }
 @csrf_exempt  # Eğer frontend başka origin’den istek yapıyorsa
 def ask_api(request):
