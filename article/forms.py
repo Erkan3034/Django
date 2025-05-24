@@ -1,5 +1,5 @@
 from django import forms
-from .models import Article, Comment, CommunityQuestion, CommunityAnswer
+from .models import Article, Comment, CommunityQuestion, CommunityAnswer, Tag
 from ckeditor.widgets import CKEditorWidget
 
 #Makale formu
@@ -12,13 +12,12 @@ class ArticleForm(forms.ModelForm):
     )
     class Meta:
         model = Article
-        fields = ['title', 'content', 'image', 'category', 'tags']
+        fields = ['title', 'content', 'image', 'category']
         labels = {
             'title': 'Başlık',
             'content': 'İçerik',
             'image': 'Görsel',
             'category': 'Kategori',
-            'tags': 'Etiketler',
         }
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),

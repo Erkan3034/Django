@@ -4,6 +4,7 @@ from django.contrib import messages
 from .models import Article, Comment, CommunityQuestion, CommunityAnswer, Category, Tag # Bu kod, Article ve Comment modellerini import eder
 from django.contrib.auth.decorators import login_required # Bu kod, kullanıcının giriş yapmış olup olmadığını kontrol eder(login_required)
 from django.db import models
+from django.contrib.auth import get_user_model
 # Create your views here.
 
 #================================================================
@@ -13,11 +14,23 @@ def index(request):
     main_categories = all_categories[:3]
     other_categories = all_categories[3:]
     popular_tags = Tag.objects.all()[:6]  # En popüler 6 etiketi göstermek için (isteğe göre değiştirilebilir)
+    recent_questions = CommunityQuestion.objects.all().order_by('-created_date')[:3]
+    User = get_user_model()
+    site_stats = {
+        'total_articles': Article.objects.count(),
+        'total_comments': Comment.objects.count(),
+        'total_questions': CommunityQuestion.objects.count(),
+        'total_users': User.objects.count(),
+    }
+    top_authors = User.objects.annotate(article_count=models.Count('article')).order_by('-article_count', 'username')[:3]
     context = {
         "articles": articles,
         "main_categories": main_categories,
         "other_categories": other_categories,
         "popular_tags": popular_tags,
+        "recent_questions": recent_questions,
+        "site_stats": site_stats,
+        "top_authors": top_authors,
     }
     return render(request, 'index.html', context)
 

@@ -4,7 +4,7 @@
     <hr class="mb-4 text-primary border-4 ">
 
     <!-- Search Bar -->
-    <div class="search-container mb-5">
+    <div class="search-container mb-4">
         <form method="GET" action="{% url 'article:articles' %}" class="search-form">
             {% csrf_token %}
             <div class="input-group">
@@ -14,6 +14,37 @@
                 </button>
             </div>
         </form>
+    </div>
+
+    <!-- Kategoriler Filter Bar -->
+    <div class="d-flex flex-wrap justify-content-center gap-2 mb-5 align-items-center">
+        <a href="{% url 'article:articles' %}" class="badge px-3 py-2 fs-6 text-decoration-none {% if not request.GET.category %}bg-primary text-white{% else %}bg-light text-dark border{% endif %}">
+            Tümü
+        </a> {% for cat in categories|slice:':4' %}
+        <a href="{% url 'article:articles' %}?category={{ cat.id }}" class="badge px-3 py-2 fs-6 text-decoration-none
+               {% if request.GET.category == cat.id|stringformat:'s' %}
+                   bg-success text-white border-0
+               {% else %}
+                   bg-light text-dark border
+               {% endif %}">
+            <i class="bi bi-chevron-right me-1"></i>{{ cat.name }}
+        </a>
+        {% endfor %} {% if categories|length > 4 %}
+        <div class="dropdown d-inline-block">
+            <a class="badge px-3 py-2 fs-6 text-decoration-none bg-light text-dark border dropdown-toggle d-flex align-items-center" href="#" role="button" id="otherCategoriesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                 Diğer
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="otherCategoriesDropdown">
+                {% for cat in categories|slice:'4:' %}
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" href="{% url 'article:articles' %}?category={{ cat.id }}">
+                        <i class="bi bi-chevron-right me-1 text-secondary"></i>{{ cat.name }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
     </div>
 
     {% if search_query %}
@@ -36,7 +67,6 @@
     {% endif %}
 
     <!-- En güncel makale (öne çıkan) -->
-
     {% if featured_article %}
     <h2 class="mb-4 text-primary" style="font-weight:700; letter-spacing:1px; text-align:left;">Yeni Blog Yazıları</h2>
     <div class="mb-5">
@@ -61,10 +91,8 @@
 
     <h3 class="mb-4">En güncel blog yazıları</h3>
     {% if articles %}
-    <!-- articles değişkeni dolu mu? -->
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for article in articles %}
-        <!--articles içindeki her makale için-->
         <div class="col">
             <div class="article-card h-100">
                 {% if article.image %}
@@ -92,22 +120,6 @@
     {% else %}
     <div class="alert alert-danger text-center fw-bold">Blog yazısı bulunamadı...</div>
     {% endif %}
-</div>
-
-<div class="card mb-4">
-    <div class="card-header bg-light fw-bold">
-        <i class="bi bi-folder"></i> Kategoriler
-    </div>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item {% if not request.GET.category %}active{% endif %}">
-            <a href="{% url 'article:articles' %}" class="text-decoration-none {% if not request.GET.category %}text-white{% endif %}">Tümü</a>
-        </li>
-        {% for cat in categories %}
-        <li class="list-group-item {% if request.GET.category == cat.id|stringformat:'s' %}active{% endif %}">
-            <a href="{% url 'article:articles' %}?category={{ cat.id }}" class="text-decoration-none {% if request.GET.category == cat.id|stringformat:'s' %}text-white{% endif %}">{{ cat.name }}</a>
-        </li>
-        {% endfor %}
-    </ul>
 </div>
 
 <style>

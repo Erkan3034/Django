@@ -11,6 +11,16 @@
                 <img src="{% static 'codenthiaRevize.png' %}" class="card-img-top" alt="{{ article.title }}" style="object-fit:cover; max-height:350px;"> {% endif %}
                 <div class="card-body">
                     <h1 class="card-title mb-3">{{ article.title | safe }}</h1>
+                    <!-- Kategori ve Etiketler -->
+                    <div class="mb-3">
+                        {% if article.category %}
+                        <span class="badge bg-primary"><i class="bi bi-folder"></i> {{ article.category.name }}</span> {% endif %} {% if article.tags.all %}
+                        <span>
+                                {% for tag in article.tags.all %}
+                                    <span class="badge bg-success"><i class="bi bi-hash"></i> {{ tag.name }}</span> {% endfor %}
+                        </span>
+                        {% endif %}
+                    </div>
                     <div class="mb-3 text-muted d-flex align-items-center gap-2">
                         <a href="{% url 'user:public_profile' article.author.username %}" class="d-flex align-items-center text-decoration-none text-dark">
                             {% if article.author.profile.image %}
@@ -202,4 +212,5 @@
         document.getElementById('id_comment_content').focus();
     }
 </script>
+
 {% endblock %}
