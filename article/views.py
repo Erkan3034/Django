@@ -5,11 +5,12 @@ from .models import Article, Comment, CommunityQuestion, CommunityAnswer, Catego
 from django.contrib.auth.decorators import login_required # Bu kod, kullanıcının giriş yapmış olup olmadığını kontrol eder(login_required)
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.http import JsonResponse
 # Create your views here.
 
 #================================================================
 def index(request):
-    articles = Article.objects.all().order_by('-created_date')[:2]
+    articles = Article.objects.all().order_by('-created_date')[:6] # Bu kod, tüm makaleleri oluşturma tarihine göre sıralar ve ilk 6 makaleyi alır
     all_categories = list(Category.objects.all())
     main_categories = all_categories[:3]
     other_categories = all_categories[3:]
@@ -97,7 +98,7 @@ def articles(request):
     
 
 #================================================================
-@login_required(login_url="user:login") #Eğer kullanıcı giriş yapmadan bu sayfaya ulaşırsa login sayfasına yönlendir
+@login_required(login_url="user:login")
 def addarticle(request):
     form = ArticleForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -182,6 +183,7 @@ def privacy(request):
     return render(request, 'privacy-policy.html')
 
 #================================================================
+@login_required(login_url="user:login")
 def addcomment(request, id):
     article = get_object_or_404(Article, id=id)
     if request.method == "POST":
@@ -189,8 +191,7 @@ def addcomment(request, id):
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
             comment.article = article
-            if request.user.is_authenticated:
-                comment.comment_author = request.user.get_full_name() or request.user.username
+            comment.comment_author = request.user.get_full_name() or request.user.username
             parent_id = comment_form.cleaned_data.get('parent')
             reply_to = comment_form.cleaned_data.get('reply_to')
             if parent_id not in [None, '', 0, '0']:
@@ -241,6 +242,9 @@ def soru_detay(request, id):
     question = get_object_or_404(CommunityQuestion, id=id)
     answers = question.answers.all()
     if request.method == "POST":
+        if not request.user.is_authenticated:
+            messages.warning(request, "Yanıt vermek için giriş yapmalısınız.")
+            return redirect(f'/user/login/?next={request.path}')
         answer_form = CommunityAnswerForm(request.POST)
         if answer_form.is_valid():
             answer = answer_form.save(commit=False)
@@ -262,4 +266,26 @@ def soru_sil(request, id):
     else:
         messages.error(request, "Bu soruyu silme yetkiniz yok.")
     return redirect('article:dashboard')
+
+def search_suggestions(request):
+    query = request.GET.get('q', '').strip()
+    results = []
+    if query:
+        articles = Article.objects.filter(title__icontains=query)[:5]
+        questions = CommunityQuestion.objects.filter(title__icontains=query)[:5]
+        for a in articles:
+            results.append({
+                'type': 'blog',
+                'id': a.id,
+                'title': a.title,
+                'url': f'/articles/detail/{a.id}' # Bu kod, makale sayfasının detayını temsil eder
+            })
+        for q in questions:
+            results.append({
+                'type': 'sosyal',
+                'id': q.id,
+                'title': q.title,
+                'url': f'/articles/sosyal/soru/{q.id}' # Bu kod, sosyal sayfasının soru detayını temsil eder
+            }) 
+    return JsonResponse({'results': results})
 

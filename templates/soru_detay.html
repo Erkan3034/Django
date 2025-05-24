@@ -64,18 +64,15 @@
                     <i class="bi bi-reply"></i> Yanıtla
                 </div>
                 <div class="card-body">
-                    {% if user.is_authenticated %}
+                    {% if request.user.is_authenticated %}
                     <form method="post">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            {{ answer_form.content.label_tag }} {{ answer_form.content }}
-                        </div>
-                        <button type="submit" class="btn btn-primary px-4">
-                            <i class="bi bi-send"></i> Yanıtı Gönder
-                        </button>
+                        {% csrf_token %} {{ answer_form.as_p }}
+                        <button type="submit" class="btn btn-primary">Yanıtla</button>
                     </form>
                     {% else %}
-                    <div class="alert alert-warning mb-0">Yanıt vermek için <a href="{% url 'user:login' %}">giriş yapmalısınız</a>.</div>
+                    <div class="alert alert-warning mt-3">
+                        Yanıt vermek için <a href="/user/login/?next={{ request.path }}" class="btn btn-sm btn-primary ms-2">Giriş Yap</a> gereklidir.
+                    </div>
                     {% endif %}
                 </div>
             </div>

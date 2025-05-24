@@ -90,7 +90,7 @@
                         <a href="https://github.com/Erkan3034" class="footer-social" target="_blank" title="GitHub">
                             <i class="bi bi-github fs-4"></i>
                         </a>
-                        <a href="https://linkedin.com/in/erkan1205" class="footer-social" target="_blank" title="LinkedIn">
+                        <a href="https://www.linkedin.com/in/erkanturgut1205/" class="footer-social" target="_blank" title="LinkedIn">
                             <i class="bi bi-linkedin fs-4"></i>
                         </a>
                         <a href="https://twitter.com/Erkan_0630" class="footer-social" target="_blank" title="Twitter">
@@ -167,6 +167,68 @@
             color: white !important;
             text-decoration: none !important;
         }
+        
+        .search-dropdown {
+            border-radius: 0 0 1rem 1rem;
+            max-height: 350px;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(80, 80, 120, 0.13);
+            min-width: 320px;
+            width: 100%;
+            left: 0;
+            right: 0;
+            top: 100%;
+            position: absolute;
+            background: #fff;
+            z-index: 1050;
+            padding: 0.25rem 0;
+        }
+        
+        .search-dropdown .search-result-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.7rem 1.1rem;
+            border-bottom: 1px solid #f0f0f0;
+            color: #222;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.15s;
+            font-size: 1.04rem;
+        }
+        
+        .search-dropdown .search-result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .search-dropdown .search-result-item:hover {
+            background: #f5f8ff;
+            color: #0d6efd;
+            text-decoration: none;
+        }
+        
+        .search-dropdown .result-icon {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+        
+        .search-dropdown .result-badge {
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 1rem;
+            padding: 0.2em 0.8em;
+            margin-left: auto;
+        }
+        
+        .search-dropdown .result-badge.blog {
+            background: #0d6efd;
+            color: #fff;
+        }
+        
+        .search-dropdown .result-badge.sosyal {
+            background: #198754;
+            color: #fff;
+        }
     </style>
 
 
@@ -191,9 +253,159 @@
 -->
 
 
+
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
     <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('navbar-search');
+            if (!searchInput) return;
+            // Containerı relative yap
+            searchInput.parentNode.style.position = 'relative';
+
+            let dropdown = document.getElementById('search-dropdown');
+            if (!dropdown) {
+                dropdown = document.createElement('div');
+                dropdown.className = 'search-dropdown shadow';
+                dropdown.id = 'search-dropdown';
+                dropdown.style.display = 'none';
+                searchInput.parentNode.appendChild(dropdown);
+            }
+
+            searchInput.addEventListener('input', function() {
+                const query = this.value.trim();
+                if (query.length < 2) {
+                    dropdown.style.display = 'none';
+                    return;
+                }
+                fetch(`/search-suggestions/?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        dropdown.innerHTML = '';
+                        if (data.results.length === 0) {
+                            dropdown.innerHTML = '<div class="p-2 text-muted">Sonuç bulunamadı</div>';
+                        } else {
+                            data.results.forEach(item => {
+                                const link = document.createElement('a');
+                                link.href = item.url;
+                                link.className = 'search-result-item';
+                                link.innerHTML = `
+                                    <span class="result-icon">${item.type === 'blog' ? '<i class="bi bi-journal-code"></i>' : '<i class="bi bi-people"></i>'}</span>
+                                    <span>${item.title}</span>
+                                    <span class="result-badge ${item.type}">${item.type === 'blog' ? 'Blog' : 'Sosyal'}</span>
+                                `;
+                                dropdown.appendChild(link);
+                            });
+                        }
+                        dropdown.style.display = 'block';
+                    });
+            });
+
+            // Kapanma davranışı
+            document.addEventListener('click', function(e) {
+                if (!dropdown.contains(e.target) && e.target !== searchInput) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+    <a href="/chat" class="chatbot-fab" title="Bana Soru Sor">
+        <div class="chatbot-label">
+            <svg width="170" height="46">
+                <path id="curve" d="M18,34 Q85,-10 152,34" fill="transparent"/>
+                <text width="170" style="font-size:1.08rem;">
+                    <textPath xlink:href="#curve" startOffset="7%">
+                        Bana Soru Sor
+                    </textPath>
+                </text>
+            </svg>
+        </div>
+        <div class="chatbot-avatar">
+            <img src="{% static 'images/codenthiaRevize.png' %}" alt="Chatbot" />
+        </div>
+    </a>
+    <style>
+        .chatbot-fab {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            z-index: 1200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            background: none;
+            border: none;
+        }
+        
+        .chatbot-label {
+            width: 170px;
+            height: 36px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            margin-bottom: -9px;
+        }
+        
+        .chatbot-label svg {
+            display: block;
+            width: 100%;
+            height: 36px;
+        }
+        
+        .chatbot-avatar {
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 4px 24px rgba(13, 110, 253, 0.13);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: box-shadow 0.2s, transform 0.2s;
+            overflow: hidden;
+            padding: 0;
+        }
+        
+        .chatbot-avatar img {
+            width: 52px;
+            height: 52px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .chatbot-fab:hover .chatbot-avatar {
+            box-shadow: 0 8px 32px rgba(13, 110, 253, 0.22);
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 600px) {
+            .chatbot-fab {
+                right: 10px;
+                bottom: 10px;
+            }
+            .chatbot-label {
+                font-size: 0.98rem;
+                width: 110px;
+                height: 24px;
+            }
+            .chatbot-label svg {
+                height: 24px;
+            }
+            .chatbot-avatar {
+                width: 54px;
+                height: 54px;
+            }
+            .chatbot-avatar img {
+                width: 48px;
+                height: 48px;
+            }
+        }
+    </style>
+
 </body>
 
 </html>

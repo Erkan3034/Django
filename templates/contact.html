@@ -1,4 +1,9 @@
-{% extends "layout.html" %} {% load static %} {% block body %}
+{% extends "layout.html" %} {% load static %} {% block body %} {% if request.GET.tesekkur %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="bi bi-check-circle me-2"></i> Mesajınız başarıyla gönderildi, en kısa sürede size dönüş yapılacaktır!
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+</div>
+{% endif %}
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-7">
@@ -10,15 +15,15 @@
                     <p class="mb-4 text-secondary">
                         Her türlü soru, öneri veya iş birliği için bize ulaşabilirsiniz. Size en kısa sürede dönüş yapacağız.
                     </p>
-                    <form method="POST" action="">
-                        {% csrf_token %}
+                    <form action="https://formspree.io/f/xrbqwzjg" method="POST">
+                        <input type="hidden" name="_next" value="/contact?tesekkur=1"> {% csrf_token %}
                         <div class="mb-3">
                             <label for="name" class="form-label">Adınız Soyadınız</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Adınız Soyadınız" required>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">E-posta Adresiniz</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="ornek@mail.com" required>
+                            <input type="email" class="form-control" id="email" name="_replyto" placeholder="ornek@mail.com" required>
                         </div>
                         <div class="mb-3">
                             <label for="subject" class="form-label">Konu</label>

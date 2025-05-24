@@ -51,6 +51,7 @@
                     </h3>
 
                     <!-- Yorum Formu -->
+                    {% if request.user.is_authenticated %}
                     <form method="post" class="mb-4" action="{% url 'article:comment' article.id %}">
                         {% csrf_token %}
                         <input type="hidden" name="parent" id="parent_id" value="">
@@ -59,9 +60,14 @@
                             {{ comment_form.comment_content.label_tag }} {{ comment_form.comment_content }}
                         </div>
                         <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-send"></i> Yorum Yap
-                        </button>
+                                <i class="bi bi-send"></i> Yorum Yap
+                            </button>
                     </form>
+                    {% else %}
+                    <div class="alert alert-warning mt-3">
+                        Yorum yapmak için <a href="/user/login/?next={{ request.path }}" class="btn btn-sm btn-primary ms-2">Giriş Yap</a> gereklidir.
+                    </div>
+                    {% endif %}
 
                     <!-- Mevcut Yorumlar -->
                     {% if comments %} {% for comment in comments %} {% if not comment.parent %}

@@ -1,64 +1,175 @@
-{% extends "layout.html" %}
-{% block title %}Gizlilik Politikası | Codenthia{% endblock %}
-
-{% block body %}
+{% extends "layout.html" %} {% block title %}Gizlilik Politikası | Codenthia{% endblock %} {% block body %}
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <div class="card shadow-lg border-0">
                 <div class="card-body p-5">
                     <h1 class="mb-4 text-center">
-                        <i class="bi bi-shield-lock-fill text-primary me-2"></i>
-                        Gizlilik Politikası
+                        <i class="bi bi-shield-lock-fill text-primary me-2"></i> Gizlilik Politikası ve Kullanım Koşulları
                     </h1>
                     <p class="text-muted text-center mb-5">Son güncelleme: 22 Mayıs 2025</p>
 
-                    <section class="mb-4">
-                        <h4 class="text-dark">1. Toplanan Bilgiler</h4>
-                        <ul>
-                            <li><strong>Otomatik veriler:</strong> IP adresi, tarayıcı tipi, cihaz bilgisi, trafik istatistikleri.</li>
-                            <li><strong>Kullanıcıdan alınan veriler:</strong> Adınız, e-posta adresiniz gibi iletişim bilgileriniz.</li>
-                        </ul>
-                    </section>
-
-                    <section class="mb-4">
-                        <h4 class="text-dark">2. Bilgilerin Kullanımı</h4>
-                        <ul>
-                            <li>Hizmet kalitesini artırmak,</li>
-                            <li>Bildirim ve bülten göndermek,</li>
-                            <li>Geri bildirim toplamak ve analiz etmek.</li>
-                        </ul>
-                    </section>
-
-                    <section class="mb-4">
-                        <h4 class="text-dark">3. Çerezler (Cookies)</h4>
-                        <p>Web sitemiz, kullanıcı deneyimini geliştirmek için çerezleri kullanabilir. Tarayıcı ayarlarınızdan çerezleri yönetebilirsiniz.</p>
-                    </section>
-
-                    <section class="mb-4">
-                        <h4 class="text-dark">4. Bilgi Paylaşımı</h4>
-                        <p>Kişisel bilgileriniz hiçbir üçüncü tarafla paylaşılmaz. Yalnızca yasal zorunluluklar durumunda resmi mercilere sunulabilir.</p>
-                    </section>
-
-                    <section class="mb-4">
-                        <h4 class="text-dark">5. Güvenlik</h4>
-                        <p>Veri güvenliği bizim için önemlidir. Ancak internet ortamında %100 güvenlik garanti edilemez.</p>
-                    </section>
-
-                    <section class="mb-4">
-                        <h4 class="text-dark">6. Haklarınız</h4>
-                        <p>Kişisel verilerinize erişme, düzeltme veya silme hakkına sahipsiniz. <a href="/contact">İletişim</a> sayfamızdan bizimle iletişime geçebilirsiniz.</p>
-                    </section>
-
-                    <section class="mb-4">
-                        <h4 class="text-dark">7. Politika Değişiklikleri</h4>
-                        <p>Bu politika zaman zaman güncellenebilir. Değişiklikler bu sayfada yayınlandığında geçerli olur.</p>
-                    </section>
+                    <div class="accordion" id="policyAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading1">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                                    1. Giriş
+                                </button>
+                            </h2>
+                            <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="heading1" data-bs-parent="#policyAccordion">
+                                <div class="accordion-body">
+                                    Bu Gizlilik Politikası ve Kullanım Koşulları belgesi, <strong>Codenthia</strong> tarafından sunulan hizmetleri kullanımınız ve Siteye erişiminizle ilgili hükümleri ve koşulları açıklamaktadır. Sitemizi kullanarak veya
+                                    erişerek, bu belgede belirtilen tüm hüküm ve koşulları kabul etmiş olursunuz. Lütfen bu belgeyi dikkatlice okuyunuz.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading2">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                    2. Toplanan Bilgiler
+                                </button>
+                            </h2>
+                            <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#policyAccordion">
+                                <div class="accordion-body">
+                                    <b>Otomatik Olarak Toplanan Veriler:</b> Sitemizi ziyaret ettiğinizde sunucularımız tarafından otomatik olarak kaydedilen verilerdir. Bunlar IP adresiniz, tarayıcı türünüz, işletim sisteminiz, cihaz bilgileriniz, ziyaret
+                                    tarih ve saatiniz, referans URL'ler ve site içi trafik istatistikleri gibi bilgileri içerebilir. Bu veriler, site performansını analiz etmek ve kullanıcı deneyimini geliştirmek amacıyla anonim olarak kullanılmaktadır.<br><br>
+                                    <b>Kullanıcı Tarafından Sağlanan Veriler:</b> Site üzerinde bir hesap oluşturduğunuzda, yorum yaptığınızda, iletişim formlarını doldurduğunuzda veya bültenimize abone olduğunuzda bize doğrudan sağladığınız bilgilerdir.
+                                    Bu bilgilere adınız, e-posta adresiniz ve isteğe bağlı olarak sağladığınız diğer iletişim bilgileri dahildir.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading3">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                    3. Bilgilerin Kullanımı
+                                </button>
+                            </h2>
+                            <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#policyAccordion">
+                                <div class="accordion-body">
+                                    Topladığımız bilgiler, aşağıda belirtilen amaçlar doğrultusunda kullanılmaktadır:<br>
+                                    <ul>
+                                        <li>Hizmetlerimizin kalitesini ve işlevselliğini artırmak.</li>
+                                        <li>Size özel içerik, bildirimler ve bültenler göndermek.</li>
+                                        <li>Kullanıcı geri bildirimlerini toplamak, analiz etmek ve hizmetlerimizi buna göre optimize etmek.</li>
+                                        <li>Teknik sorunları gidermek ve sitemizin güvenliğini sağlamak.</li>
+                                        <li>Yasal yükümlülüklerimizi yerine getirmek.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading4">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                    4. Çerezler (Cookies)
+                                </button>
+                            </h2>
+                            <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#policyAccordion">
+                                <div class="accordion-body">
+                                    Sitemiz, kullanıcı deneyiminizi geliştirmek ve sitemizin işlevselliğini sağlamak amacıyla çerezleri ve benzeri takip teknolojilerini kullanabilir. Çerezler, tarayıcınıza yerleştirilen küçük metin dosyalarıdır. Çerez tercihlerinizi tarayıcı ayarlarınız
+                                    üzerinden yönetebilir veya reddedebilirsiniz. Çerezleri devre dışı bırakmanız durumunda sitemizin bazı özelliklerinin tam olarak çalışmayabileceğini unutmayınız.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading5">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                                    5. Bilgi Paylaşımı
+                                </button>
+                            </h2>
+                            <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5" data-bs-parent="#policyAccordion">
+                                <div class="accordion-body">
+                                    Kişisel bilgileriniz, yasal zorunluluklar veya resmi mercilerin talepleri dışında hiçbir üçüncü taraf veya kurumla paylaşılmaz, satılmaz veya kiralanmaz. Bilgilerinizin gizliliğini korumak için gerekli tüm çabayı göstermekteyiz..
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading6">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                                    6. Veri Güvenliği
+                                </button>
+                            </h2>
+                            <div id="collapse6" class="accordion-collapse collapse" aria-labelledby="heading6" data-bs-parent="#policyAccordion">
+                                <div class="accordion-body">
+                                    Veri güvenliği bizim için büyük önem taşımaktadır. Topladığımız bilgileri yetkisiz erişim, ifşa, değiştirme veya yok etmeye karşı korumak için uygun fiziksel, elektronik ve yönetimsel prosedürleri uygulamaktayız. Ancak, internet üzerinden veri iletiminin
+                                    %100 güvenliğinin garanti edilemeyeceğini belirtmek isteriz. Bu nedenle, bilgilerinizi korumak için elimizden gelen çabayı göstermemize rağmen, mutlak güvenlik garanti edilemez.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading7">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+                                    7. Haklarınız
+                                </button>
+                            </h2>
+                            <div id="collapse7" class="accordion-collapse collapse" aria-labelledby="heading7" data-bs-parent="#policyAccordion">
+                                <div class="accordion-body">
+                                    Kişisel verilerinizle ilgili olarak aşağıdaki haklara sahipsiniz:<br>
+                                    <ul>
+                                        <li><b>Erişim Hakkı:</b> Hakkınızda tutulan kişisel verilere erişme ve bu verilerin bir kopyasını talep etme.</li>
+                                        <li><b>Düzeltme Hakkı:</b> Eksik veya yanlış olduğunu düşündüğünüz kişisel verilerinizin düzeltilmesini talep etme.</li>
+                                        <li><b>Silme Hakkı ("Unutulma Hakkı"):</b> Belirli koşullar altında kişisel verilerinizin silinmesini talep etme.</li>
+                                        <li><b>İşlemenin Kısıtlanması Hakkı:</b> Belirli koşullar altında kişisel verilerinizin işlenmesini kısıtlama.</li>
+                                        <li><b>Veri Taşınabilirliği Hakkı:</b> Kişisel verilerinizi yapılandırılmış, yaygın olarak kullanılan ve makine tarafından okunabilir bir formatta alma ve başka bir denetleyiciye aktarma hakkı.</li>
+                                        <li><b>İtiraz Hakkı:</b> Belirli koşullar altında kişisel verilerinizin işlenmesine itiraz etme.</li>
+                                    </ul>
+                                    Bu haklarınızı kullanmak için lütfen <a href="/contact">iletişim sayfamızdan</a> bizimle iletişime geçin. Talepleriniz, ilgili yasal düzenlemelere uygun olarak en kısa sürede değerlendirilecektir.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading8">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
+                                    8. Kullanım Koşulları
+                                </button>
+                            </h2>
+                            <div id="collapse8" class="accordion-collapse collapse" aria-labelledby="heading8" data-bs-parent="#policyAccordion">
+                                <div class="accordion-body">
+                                    Sitemizi kullanarak, aşağıdaki kullanım koşullarını kabul etmiş olursunuz:<br>
+                                    <ul>
+                                        <li><b>Hesap Sorumluluğu:</b> Sitemizde oluşturduğunuz hesapların güvenliğinden tamamen siz sorumlusunuz. Kullanıcı adınız ve şifrenizin gizliliğini korumak, hesabınız aracılığıyla gerçekleştirilen tüm faaliyetlerden
+                                            sorumlu olmak sizin yükümlülüğünüzdedir. Şifrenizi üçüncü şahıslarla paylaşmayınız.</li>
+                                        <li><b>İçerik Paylaşımı:</b> Bloga eklediğiniz tüm yazı, yorum, görsel ve diğer içeriklerin yasalara uygun, özgün ve telif hakları ihlali içermeyen nitelikte olması gerekmektedir. Yayımladığınız içeriklerden doğabilecek
+                                            her türlü hukuki ve cezai sorumluluk kullanıcıya aittir. Sitemiz, telif hakkı ihlallerinden sorumlu tutulamaz.</li>
+                                        <li><b>Yasaklı İçerikler:</b> Aşağıdaki türde içeriklerin paylaşılması kesinlikle yasaktır: hakaret, nefret söylemi, spam, yasa dışı faaliyetleri teşvik eden içerikler, zararlı yazılımlar, kişisel verilerin izinsiz
+                                            paylaşımı, topluluk kurallarımıza veya genel ahlak kurallarına aykırı içerikler. Bu tür içeriklerin tespiti halinde derhal kaldırılacaktır.</li>
+                                        <li><b>İçerik Kaldırma Hakkı:</b> Site yönetimi, bu kullanım koşullarına aykırı veya uygun görmediği herhangi bir içeriği önceden bildirimde bulunmaksızın kaldırma hakkını saklı tutar.</li>
+                                        <li><b>Hizmet Değişikliği ve Sonlandırma:</b> Site sahibi, sunduğu hizmetlerde herhangi bir zamanda değişiklik yapma, hizmetlerin bir kısmını veya tamamını askıya alma veya sonlandırma hakkını saklı tutar. Bu tür değişiklikler,
+                                            önceden bildirimde bulunmaksızın gerçekleştirilebilir.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading9">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
+                                    9. Telif Hakları
+                                </button>
+                            </h2>
+                            <div id="collapse9" class="accordion-collapse collapse" aria-labelledby="heading9" data-bs-parent="#policyAccordion">
+                                <div class="accordion-body">
+                                    Sitenin tüm içeriği (metinler, grafikler, logolar, görseller, ses klipleri, veri derlemeleri ve yazılım dahil ancak bunlarla sınırlı olmamak üzere) ve kullanıcılar tarafından paylaşılan içerikler, aksi belirtilmedikçe ilgili yazarına veya Siteye aittir
+                                    ve uluslararası telif hakkı yasalarıyla korunmaktadır. İzinsiz kopyalanamaz, çoğaltılamaz, dağıtılamaz veya ticari amaçlarla kullanılamaz.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading10">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse10" aria-expanded="false" aria-controls="collapse10">
+                                    10. Politika Değişiklikleri
+                                </button>
+                            </h2>
+                            <div id="collapse10" class="accordion-collapse collapse" aria-labelledby="heading10" data-bs-parent="#policyAccordion">
+                                <div class="accordion-body">
+                                    Bu Gizlilik Politikası ve Kullanım Koşulları, zaman zaman güncellenebilir veya değiştirilebilir. Yapılan değişiklikler, bu sayfada yayınlandığı an itibarıyla yürürlüğe girer. Sitemizi kullanmaya devam etmeniz, bu değişiklikleri kabul ettiğiniz anlamına
+                                    gelir. Bu nedenle, bu sayfayı düzenli olarak gözden geçirmeniz önerilir.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="text-center mt-5">
                         <a href="/contact" class="btn btn-outline-primary">
-                            <i class="bi bi-envelope-fill me-1"></i>
-                            Bizimle İletişime Geçin
+                            <i class="bi bi-envelope-fill me-1"></i> Bizimle İletişime Geçin
                         </a>
                     </div>
                 </div>

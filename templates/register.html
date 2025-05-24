@@ -1,6 +1,4 @@
-{% extends "layout.html" %}
-
-{% block body %}
+{% extends "layout.html" %} {% block body %}
 
 
 
@@ -18,18 +16,17 @@
                     <!-- Hata mesajı Start -->
                     {% if form.errors %}
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        {% for field, errors in form.errors.items %}
-                            {% for error in errors %}
-                                <p class="mb-0">{{ error }}</p>
-                            {% endfor %}
-                        {% endfor %}
+                        {% for field, errors in form.errors.items %} {% for error in errors %}
+                        <p class="mb-0">{{ error }}</p>
+                        {% endfor %} {% endfor %}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     {% endif %}
                     <!-- Hata mesajı End -->
 
                     <form method="POST" autocomplete="off">
-                        {% csrf_token %} <!-- Formun güvenliğini sağlar -->
+                        {% csrf_token %}
+                        <!-- Formun güvenliğini sağlar -->
                         <div class="mb-3">
                             <label for="username" class="form-label"><i class="bi bi-person-fill me-2 text-primary"></i>Kullanıcı Adı</label>
                             <input type="text" class="form-control border-primary" id="username" name="username" value="{{ form.username.value|default:'' }}" required>
@@ -49,6 +46,12 @@
                         <div class="mb-4">
                             <label for="confirm" class="form-label"><i class="bi bi-lock me-2 text-primary"></i>Şifre (Tekrar)</label>
                             <input type="password" class="form-control border-primary" id="confirm" name="confirm" required>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="termsCheck" name="terms" required>
+                            <label class="form-check-label" for="termsCheck">
+                                <a href="/privacy-policy/" target="_blank">Gizlilik Politikası</a> ve <a href="/privacy-policy/" target="_blank">Kullanım Koşulları</a>'nı okudum, kabul ediyorum.
+                            </label>
                         </div>
                         <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
                             <i class="bi bi-person-plus-fill me-2"></i>Kayıt Ol ve Kodlamaya Başla
