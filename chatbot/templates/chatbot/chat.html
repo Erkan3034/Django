@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Codenthia Chatbot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f4f7fb;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        .chatbot-container {
+            max-width: 420px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 1.2rem;
+            box-shadow: 0 8px 32px rgba(80, 80, 120, 0.13);
+            display: flex;
+            flex-direction: column;
+            min-height: 600px;
+            overflow: hidden;
+        }
+        
+        .chatbot-header {
+            background: linear-gradient(129deg, #427bbe 0%, #3c4856 100%);
+            color: #fff;
+            padding: 1.2rem 1.5rem 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .chatbot-header img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #fff;
+            object-fit: cover;
+            box-shadow: 0 2px 8px rgba(80, 80, 120, 0.13);
+        }
+        
+        .chatbot-header .title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+        }
+        
+        .chatbox {
+            flex: 1;
+            padding: 1.2rem;
+            overflow-y: auto;
+            background: #f7fafd;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+        
+        .message-row {
+            display: flex;
+            align-items: flex-end;
+        }
+        
+        .message-row.user {
+            justify-content: flex-end;
+        }
+        
+        .message-bubble {
+            max-width: 75%;
+            padding: 0.7rem 1.1rem;
+            border-radius: 1.2rem;
+            font-size: 1.05rem;
+            line-height: 1.5;
+            box-shadow: 0 2px 8px rgba(80, 80, 120, 0.07);
+            margin-bottom: 2px;
+            word-break: break-word;
+        }
+        
+        .message-row.user .message-bubble {
+            background: #427bbe;
+            color: #fff;
+            border-bottom-right-radius: 0.3rem;
+        }
+        
+        .message-row.bot .message-bubble {
+            background: #e9f1fb;
+            color: #222;
+            border-bottom-left-radius: 0.3rem;
+        }
+        
+        .chatbot-footer {
+            padding: 1rem 1.2rem;
+            background: #f4f7fb;
+            border-top: 1px solid #e3e7ef;
+            display: flex;
+            gap: 0.7rem;
+            align-items: center;
+        }
+        
+        .chatbot-footer input {
+            flex: 1;
+            border: none;
+            border-radius: 1.2rem;
+            padding: 0.7rem 1.1rem;
+            font-size: 1.05rem;
+            background: #f7fafd;
+            box-shadow: 0 1px 4px rgba(80, 80, 120, 0.07);
+            outline: none;
+            transition: box-shadow 0.2s;
+        }
+        
+        .chatbot-footer input:focus {
+            box-shadow: 0 2px 8px rgba(80, 80, 120, 0.13);
+        }
+        
+        .chatbot-footer button {
+            background: #427bbe;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+        
+        .chatbot-footer button:hover {
+            background: #305a8c;
+            transform: scale(1.07);
+        }
+        
+        .loading-dots {
+            display: inline-block;
+            width: 32px;
+            text-align: left;
+        }
+        
+        .loading-dots span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            margin: 0 1px;
+            background: #427bbe;
+            border-radius: 50%;
+            animation: loading-bounce 1.2s infinite both;
+        }
+        
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes loading-bounce {
+            0%,
+            80%,
+            100% {
+                transform: scale(0.7);
+            }
+            40% {
+                transform: scale(1.2);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .chatbot-container {
+                max-width: 100vw;
+                min-height: 100vh;
+                border-radius: 0;
+                margin: 0;
+            }
+            .chatbot-header,
+            .chatbot-footer {
+                padding-left: 0.7rem;
+                padding-right: 0.7rem;
+            }
+            .chatbox {
+                padding: 0.7rem;
+            }
+        }
+        
+        .back-home-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.7rem;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.13);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 1.3rem;
+            transition: background 0.18s, color 0.18s;
+            text-decoration: none;
+        }
+        
+        .back-home-btn:hover {
+            background: #fff;
+            color: #427bbe;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 600px) {
+            .back-home-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 1.1rem;
+                margin-right: 0.4rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <a href="/" class="back-home-btn" title="Ana Sayfa" aria-label="Ana Sayfa">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+            <img src="/static/images/codenthiaRevize.png" alt="Bot">
+            <span class="title">Codenthia AI Chatbot</span>
+        </div>
+        <div class="chatbox" id="chatbox"></div>
+        <div class="chatbot-footer">
+            <input type="text" id="messageInput" placeholder="Sorunuzu yazın..." autocomplete="off" />
+            <button id="sendBtn" title="Gönder" onclick="sendMessage()">
+                <i class="bi bi-send"></i>
+            </button>
+        </div>
+    </div>
+    <script>
+        const chatbox = document.getElementById("chatbox");
+        const messageInput = document.getElementById("messageInput");
+        const sendBtn = document.getElementById("sendBtn");
+        let loadingElem = null;
+
+        function appendMessage(text, sender) {
+            const row = document.createElement("div");
+            row.className = "message-row " + sender;
+            const bubble = document.createElement("div");
+            bubble.className = "message-bubble";
+            bubble.innerHTML = text;
+            row.appendChild(bubble);
+            chatbox.appendChild(row);
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+
+        function showLoading() {
+            loadingElem = document.createElement("div");
+            loadingElem.className = "message-row bot";
+            loadingElem.innerHTML = '<div class="message-bubble"><span class="loading-dots"><span></span><span></span><span></span></span></div>';
+            chatbox.appendChild(loadingElem);
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+
+        function hideLoading() {
+            if (loadingElem) {
+                chatbox.removeChild(loadingElem);
+                loadingElem = null;
+            }
+        }
+
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+            appendMessage(message, "user");
+            messageInput.value = "";
+            messageInput.focus();
+            showLoading();
+            try {
+                const response = await fetch("/chatbot/ask/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        message
+                    })
+                });
+                const data = await response.json();
+                hideLoading();
+                appendMessage(data.answer || data.error || "Cevap alınamadı.", "bot");
+            } catch (error) {
+                hideLoading();
+                appendMessage("Bir hata oluştu: " + error.message, "bot");
+            }
+        }
+
+        messageInput.addEventListener("keydown", function(e) {
+            if (e.key === "Enter") sendMessage();
+        });
+    </script>
+</body>
+
+</html>

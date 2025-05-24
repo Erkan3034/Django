@@ -40,6 +40,9 @@ urlpatterns = [
 
     path('search-suggestions/', views.search_suggestions, name='search_suggestions'),
     path('search_suggestions/', views.search_suggestions),  # opsiyonel, ikisi de çalışsın diye
+
+    path('chatbot/', include('chatbot.urls')),
+    
 ]
 
 if settings.DEBUG:

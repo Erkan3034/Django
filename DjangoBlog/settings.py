@@ -9,6 +9,13 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+import os
+import dotenv
+
+dotenv.load_dotenv()
+
+HUGGINGFACE_API_TOKEN = os.getenv("HUGGINGFACE_API_TOKEN")
+
 
 from pathlib import Path
 import os
@@ -42,6 +49,7 @@ INSTALLED_APPS = [
     "user",
     'ckeditor', # Zengin metin editörü için eklendi
     'django_cleanup.apps.CleanupConfig', # Bu kod, Django'nun dosya silme işlemlerini otomatikleştirir
+    'chatbot',
 ]
 
 MIDDLEWARE = [
