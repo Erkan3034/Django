@@ -6,7 +6,7 @@ from together import Together
 import os
 
 # API KEY doğrudan yazılmış (production için os.environ tercih edilmeli)
-client = Together()
+client = Together(api_key="tgp_v1__9blMgwAwATd5rw2igydCXY7mAN81eBTIVfSJaL0R2M")
 
 @csrf_exempt
 def ask_api(request):
@@ -15,25 +15,36 @@ def ask_api(request):
 
     try:
         data = json.loads(request.body)
-        user_message = data.get("message", "")
+        user_message = data.get("message", "").lower()
+
+        # Temel sistem mesajı
+        system_message = (
+            "Codenthia adlı yazılım destek platformunun resmi botusun. "
+            "Kullanıcıya kısa, net ama profesyonel cevaplar ver. Yazılım alanında uzmansın. "
+            "Kod örneklerini, tabloları ve açıklamaları düzenli ve okunabilir şekilde sun. "
+            "Gerekirse markdown formatı kullanabilirsin.\n\n"
+            "Cevaplarını Türkçe ver, ama kodlar İngilizce yazılmalı. "
+            "Karmaşık konularda adım adım açıklama yapabilirsin."
+        )
+
+        # Codenthia ile ilgili belirli sorular için tanıtım bilgisi ekle
+        intro_triggers = ["codenthia nedir", "codenthia hakkında", "kurucu kim", "kim kurdu", "codenthia kim"]
+        should_add_intro = any(trigger in user_message for trigger in intro_triggers)
+
+        if should_add_intro:
+            system_message += (
+                "\n\nCodenthia ile ilgili sorulara şu bilgileri ekleyerek cevap ver: "
+                "'Codenthia, yazılımcılar için hazırlanmış modern bir bilgi ve destek platformudur. "
+                "Kurucusu Erkan TURGUT'tur (LinkedIn: https://linkedin.com/in/erkan1205). "
+                "Resmi site: https://codenthia.com. Bizi tercih ettiğiniz için teşekkür ederiz!'"
+            )
 
         response = client.chat.completions.create(
             model="deepseek-ai/DeepSeek-V3",
             messages=[
                 {
                     "role": "system",
-                    "content": (
-                        "Sen Codenthia adlı yazılım destek platformunun resmi botusun. "
-                        "Kullanıcıya kısa, net ama profesyonel cevaplar ver. Yazılım alanında uzmansın. "
-                        "Kod örneklerini, tabloları ve açıklamaları düzenli ve okunabilir şekilde sun. "
-                        "Gerekirse markdown formatı kullanabilirsin.\n\n"
-                        "Codenthia ile ilgili soru sorulunca kısaca Codenthia’dan bahset: "
-                        "'Codenthia, yazılımcılar için hazırlanmış modern bir bilgi ve destek platformudur.' "
-                        "Kullanıcılara bu siteyi ziyaret ettikleri için teşekkür et.\n\n"
-                        "Cevaplarını Türkçe ver, ama kodlar İngilizce yazılmalı. "
-                        "Karmaşık konularda adım adım açıklama yapabilirsin."
-                        "Codenthia kurucusu :Erkan TURGUT'https://linkedin.com/in/erkan1205'"
-                    )
+                    "content": system_message
                 },
                 {"role": "user", "content": user_message}
             ]
