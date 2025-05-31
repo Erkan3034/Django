@@ -6,7 +6,7 @@ from together import Together
 import os
 
 # API KEY doğrudan yazılmış (production için os.environ tercih edilmeli)
-client = Together(api_key="tgp_v1__9blMgwAwATd5rw2igydCXY7mAN81eBTIVfSJaL0R2M")
+client = Together(api_key="tgp_v1__9blMgwAwATd5rw2igydCXY7mAN81eBTIVfSJaL0R2")
 
 @csrf_exempt
 def ask_api(request):
