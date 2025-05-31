@@ -6,7 +6,7 @@ from together import Together
 import os
 
 # API KEY doğrudan yazılmış (production için os.environ tercih edilmeli)
-client = Together(api_key="")
+client = Together()
 
 @csrf_exempt
 def ask_api(request):
