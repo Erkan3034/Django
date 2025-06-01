@@ -319,7 +319,11 @@
             const messages = document.getElementById('chatbot-messages');
 
             openBtn.onclick = () => {
-                popup.style.display = 'flex';
+                if (window.innerWidth <= 600) {
+                    window.location.href = '/chatbot/';
+                } else {
+                    popup.style.display = 'flex';
+                }
             };
             closeBtn.onclick = () => {
                 popup.style.display = 'none';

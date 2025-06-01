@@ -1,4 +1,4 @@
-{% extends "layout.html" %} {% load static %} {% block title %}Profili Düzenle | Codenthia{% endblock %} {% block body %} {% block extra_css %}
+{% extends "layout.html" %} {% load static %} {% load widget_tweaks %} {% block title %}Profili Düzenle | Codenthia{% endblock %} {% block body %} {% block extra_css %}
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
     body {
@@ -96,22 +96,22 @@
                             {% endif %}
                         </div>
                         <div class="mb-3">
-                            <label for="id_first_name" class="form-label">Ad</label> {{ form.first_name|class:"form-control" }}
+                            <label for="id_first_name" class="form-label">Ad</label> {{ form.first_name|add_class:"form-control" }}
                         </div>
                         <div class="mb-3">
-                            <label for="id_last_name" class="form-label">Soyad</label> {{ form.last_name|class:"form-control" }}
+                            <label for="id_last_name" class="form-label">Soyad</label> {{ form.last_name|add_class:"form-control" }}
                         </div>
                         <div class="mb-3">
-                            <label for="id_email" class="form-label">E-posta</label> {{ form.email|class:"form-control" }}
+                            <label for="id_email" class="form-label">E-posta</label> {{ form.email|add_class:"form-control" }}
                         </div>
                         <div class="mb-3">
-                            <label for="id_github" class="form-label">Github</label> {{ form.github|class:"form-control" }}
+                            <label for="id_github" class="form-label">Github</label> {{ form.github|add_class:"form-control" }}
                         </div>
                         <div class="mb-3">
-                            <label for="id_bio" class="form-label">Biyografi</label> {{ form.bio|class:"form-control" }}
+                            <label for="id_bio" class="form-label">Biyografi</label> {{ form.bio|add_class:"form-control" }}
                         </div>
                         <div class="mb-3">
-                            <label for="id_image" class="form-label">Profil Fotoğrafı</label> {{ form.image|class:"form-control" }}
+                            <label for="id_image" class="form-label">Profil Fotoğrafı</label> {{ form.image|add_class:"form-control" }}
                         </div>
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Kaydet</button>
