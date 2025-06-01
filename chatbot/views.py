@@ -4,9 +4,11 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from together import Together
 import os
+from dotenv import load_dotenv
 
 # API KEY doğrudan yazılmış (production için os.environ tercih edilmeli)
-client = Together(api_key="tgp_v1__9blMgwAwATd5rw2igydCXY7mAN81eBTIVfSJaL0R2M")
+load_dotenv()
+client = Together(api_key=os.getenv("TOGETHER_API_KEY"))
 
 @csrf_exempt
 def ask_api(request):
