@@ -81,9 +81,9 @@
                         <span class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
                             <i class="bi bi-code-slash fs-4"></i>
                         </span>
-                        <span class="fw-bold fs-5"><a href="/" class="logo-link">Codenthia Blog</a></span>
+                        <span class="fw-bold fs-5"><a href="/" class="logo-link">Codenthia</a></span>
                     </div>
-                    <p class="small text-white-50 mb-0">Yazılım, yapay zeka ve teknolojiyi paylaşan bir geliştirici platformu.</p>
+                    <p class="small text-white-50 mb-0">Yazılım, yapay zeka ve teknolojiyi üreten & paylaşan platform.</p>
                 </div>
                 <div class="col-md-4 mb-3 mb-md-0 text-center">
                     <div class="d-flex justify-content-center gap-3 mb-2">
@@ -107,8 +107,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 text-md-end text-center mt-3 mt-md-0">
-                    <p class="small text-white-50 mb-1">© 2025 <span class="fw-bold text-white">Codenthia</span>. Tüm hakları saklıdır.</p>
-                    <p class="small text-white-50 mb-0">Geliştirici: <a href="https://github.com/Erkan3034" class="footer-link">Erkan Turgut</a></p>
+                    <p class="small text-white-50 mb-1">© <span id="currentYear"></span> <span class="fw-bold text-white">Codenthia</span>. Tüm hakları saklıdır.</p>
                 </div>
             </div>
         </div>
@@ -529,6 +528,12 @@
             justify-content: center;
         }
     </style>
+
+    <!-- Sayfa sonu JavaScript -->
+    <script>
+        // Telif hakkı yılını otomatik güncelle
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
 
 </body>
 
