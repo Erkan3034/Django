@@ -7,6 +7,10 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from user.forms import NewsletterForm
+from django.views.static import serve
+from django.conf import settings
+import os
+
 # Create your views here.
 
 #================================================================
@@ -290,4 +294,8 @@ def search_suggestions(request):
                 'url': f'/articles/sosyal/soru/{q.id}' # Bu kod, sosyal sayfasının soru detayını temsil eder
             }) 
     return JsonResponse({'results': results})
+
+def serve_media(request, path):
+    """Media dosyalarını serve etmek için özel view"""
+    return serve(request, path, document_root=settings.MEDIA_ROOT)
 

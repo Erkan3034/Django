@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from article import views # Bu kod, article uygulamasındaki views.py dosyasını içe aktarır
 from django.conf import settings
 from django.conf.urls.static import static
@@ -43,7 +43,9 @@ urlpatterns = [
 
     path('chatbot/', include('chatbot.urls')),
     
+    # Media dosyaları için özel URL pattern
+    re_path(r'^media/(?P<path>.*)$', views.serve_media, name='media'),
 ]
 
-# Media files configuration - Her durumda media dosyalarını serve et
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Eski media configuration'ı kaldırıyoruz
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

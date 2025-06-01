@@ -151,6 +151,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Media dosyalarını serve etmek için güvenlik ayarı
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+SECURE_CONTENT_TYPE_NOSNIFF = False  # Media dosyaları için gerekli
 
 CKEDITOR_CONFIGS = {
     'default': {
