@@ -171,3 +171,5 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 CSRF_COOKIE_SECURE = False  # Test için False, üretimde True yapın
 SESSION_COOKIE_SECURE = False  # Test için False, üretimde True yapın
+
+CSRF_TRUSTED_ORIGINS = ['https://codenthia-com.onrender.com']
