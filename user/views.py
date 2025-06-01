@@ -129,11 +129,11 @@ def newsletter_signup(request):
             email = form.cleaned_data['email']
             if not NewsletterEmail.objects.filter(email=email).exists():
                 form.save()
-                messages.success(request, 'Bültenimize başarıyla abone oldunuz!')
+                messages.success(request, 'Tebrikler Bültenimize başarıyla abone oldun! Bizden her zaman ilk sen haberdar olacaksın!')
             else:
-                messages.info(request, 'Bu e-posta zaten bültenimize kayıtlı.')
+                messages.info(request, 'Bu e-posta zaten bültenimize kayıtlı. Geçerli bir e-posta adresi girmeye ne dersin?')
         else:
-            messages.error(request, 'Geçerli bir e-posta adresi giriniz.')
+            messages.error(request, 'Bomm, Geçersiz bir e-posta adresi girdin. Geçerli bir e-posta adresi girmeye ne dersin?')
         return redirect('index')
     else:
         return redirect('index')
