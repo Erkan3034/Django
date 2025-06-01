@@ -31,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['codenthia-com.onrender.com'] # Bu kod, tüm hostların erişimine izin verir(debug modu true olduğu için)
 #ALLOWED_HOSTS = ['localhost', '127.0.0.1']
@@ -168,3 +168,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+CSRF_COOKIE_SECURE = False  # Test için False, üretimde True yapın
+SESSION_COOKIE_SECURE = False  # Test için False, üretimde True yapın
