@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required # Bu kod, kullanıcın
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
+from user.forms import NewsletterForm
 # Create your views here.
 
 #================================================================
@@ -32,6 +33,7 @@ def index(request):
         "recent_questions": recent_questions,
         "site_stats": site_stats,
         "top_authors": top_authors,
+        "NewsletterForm": NewsletterForm(),
     }
     return render(request, 'index.html', context)
 

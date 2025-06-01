@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, NewsletterEmail
 
 
 class LoginForm(forms.Form):
@@ -49,14 +49,29 @@ class ProfileEditForm(forms.ModelForm):
     email = forms.EmailField(required=True, label="E-posta")
     class Meta:
         model = Profile
-        fields = ['image', 'bio', 'github']
+        fields = ['image', 'bio', 'github', 'first_name', 'last_name', 'email']
         labels = {
             'image': 'Profil Fotoğrafı',
             'bio': 'Biyografi',
             'github': 'Github',
+            'first_name': 'Ad',
+            'last_name': 'Soyad',
+            'email': 'E-posta',
         }
         widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Adınız...'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Soyadınız...'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'E-posta adresiniz...'}),
             'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Kendinizi kısaca tanıtın...'}),
             'github': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'Github profil linkiniz...'}),
             'image': forms.FileInput(attrs={'class': 'form-control'}),
+        }
+
+
+class NewsletterForm(forms.ModelForm):
+    class Meta:
+        model = NewsletterEmail
+        fields = ['email']
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'form-control form-control-sm rounded-start', 'placeholder': 'E-posta adresiniz', 'required': True}),
         }

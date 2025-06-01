@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import RegisterForm, LoginForm, ProfileEditForm
+from .forms import RegisterForm, LoginForm, ProfileEditForm, NewsletterForm
 from django.contrib.auth.models import User # kullanıcı modeli 
 from django.contrib.auth import login, authenticate, logout # login, authenticate, logout fonksiyonları
 from django.db import IntegrityError
 from django.contrib import messages # flashmesajları göstermek için
 from django.contrib.auth.decorators import login_required
 from article.models import Article, CommunityQuestion
-from .models import Profile
+from .models import Profile, NewsletterEmail
 
 
 
@@ -121,3 +121,19 @@ def public_profile(request, username):
         'questions': questions,
     }
     return render(request, 'user/public_profile.html', context)
+
+def newsletter_signup(request):
+    if request.method == 'POST':
+        form = NewsletterForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            if not NewsletterEmail.objects.filter(email=email).exists():
+                form.save()
+                messages.success(request, 'Bültenimize başarıyla abone oldunuz!')
+            else:
+                messages.info(request, 'Bu e-posta zaten bültenimize kayıtlı.')
+        else:
+            messages.error(request, 'Geçerli bir e-posta adresi giriniz.')
+        return redirect('index')
+    else:
+        return redirect('index')

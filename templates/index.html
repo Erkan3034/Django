@@ -33,9 +33,6 @@
                     <a href="/articles" class="btn btn-primary btn-lg px-4 shadow-sm">
                         <i class="bi bi-journal-code me-2"></i>Yazıları Keşfet
                     </a>
-                    <a href="#newsletter" class="btn btn-outline-primary btn-lg px-4 shadow-sm">
-                        <i class="bi bi-envelope-paper me-2"></i>Bültene Katıl
-                    </a>
                     {% if not request.user.is_authenticated %}
                     <a href="/user/register" class="btn btn-success btn-lg px-4 shadow-sm">
                         <i class="bi bi-person-plus me-2"></i>Hemen Üye Ol
@@ -184,9 +181,10 @@
                     <div class="card-body py-3">
                         <h5 class="card-title mb-2 d-flex align-items-center"><i class="bi bi-envelope-paper me-2 text-danger fs-4"></i> Bültenimize Katılın</h5>
                         <p class="card-text mb-3 text-dark">En yeni yazılardan ve topluluk gelişmelerinden haberdar olmak için bültenimize abone olun.</p>
-                        <form action="" method="POST">
+                        <form action="{% url 'user:newsletter_signup' %}" method="POST">
+                            {% csrf_token %}
                             <div class="input-group mb-2">
-                                <input type="email" class="form-control form-control-sm rounded-start" placeholder="E-posta adresiniz" required>
+                                {{ NewsletterForm.email }}
                                 <button class="btn btn-danger btn-sm rounded-end" type="submit">
                                     <i class="bi bi-send"></i> Abone Ol
                                 </button>

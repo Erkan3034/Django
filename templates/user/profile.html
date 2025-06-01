@@ -15,9 +15,9 @@
                                 <i class="bi bi-person-fill text-white" style="font-size: 3rem;"></i>
                             </div>
                             {% endif %}
-                            <button class="btn btn-sm btn-light position-absolute bottom-0 end-0 rounded-circle shadow-sm" style="width: 32px; height: 32px;" title="Fotoğrafı Değiştir">
+                            <a href="{% url 'user:edit_profile' %}" class="btn btn-sm btn-light position-absolute bottom-0 end-0 rounded-circle shadow-sm" style="width: 32px; height: 32px;" title="Fotoğrafı Değiştir">
                                 <i class="bi bi-camera"></i>
-                            </button>
+                            </a>
                         </div>
                         <h4 class="mb-1">{{ user.get_full_name|default:user.username }}</h4>
                         <p class="text-muted mb-2">@{{ user.username }}</p>
@@ -28,9 +28,6 @@
                             <a href="{% url 'user:edit_profile' %}" class="btn btn-primary btn-sm">
                                 <i class="bi bi-pencil me-1"></i>Profili Düzenle
                             </a>
-                            <button class="btn btn-outline-primary btn-sm">
-                                <i class="bi bi-share me-1"></i>Paylaş
-                            </button>
                         </div>
                     </div>
 
@@ -89,6 +86,7 @@
                                 <i class="bi bi-file-text me-2"></i>Makalelerim
                             </button>
                         </li>
+                        <!--
                         <li class="nav-item" role="presentation">
                             <button class="nav-link px-4 py-3" id="comments-tab" data-bs-toggle="tab" data-bs-target="#comments" type="button" role="tab">
                                 <i class="bi bi-chat-dots me-2"></i>Yorumlarım
@@ -99,6 +97,7 @@
                                 <i class="bi bi-heart me-2"></i>Beğendiklerim
                             </button>
                         </li>
+                        -->
                     </ul>
 
                     <div class="tab-content p-4" id="profileTabsContent">
