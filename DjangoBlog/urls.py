@@ -46,4 +46,4 @@ urlpatterns = [
 ]
 
 # Media files configuration - Her durumda media dosyalarını serve et
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT, show_indexes=True)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
